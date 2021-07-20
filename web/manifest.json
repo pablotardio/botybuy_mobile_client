@@ -1,11 +1,11 @@
 {
-    "name": "botybuy_mobile_client",
-    "short_name": "botybuy_mobile_client",
+    "name": "the_gorgeous_login",
+    "short_name": "the_gorgeous_login",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "The Gorgeous Login UI",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
