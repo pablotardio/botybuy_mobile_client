@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:the_gorgeous_login/theme.dart';
-import 'package:the_gorgeous_login/widgets/snackbar.dart';
+import 'package:botybuy/theme.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key}) : super(key: key);

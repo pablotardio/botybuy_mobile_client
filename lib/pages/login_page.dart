@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:the_gorgeous_login/pages/widgets/sign_in.dart';
-import 'package:the_gorgeous_login/pages/widgets/sign_up.dart';
-import 'package:the_gorgeous_login/theme.dart';
-import 'package:the_gorgeous_login/utils/bubble_indicator_painter.dart';
+import 'package:botybuy/pages/widgets/sign_in.dart';
+import 'package:botybuy/pages/widgets/sign_up.dart';
+import 'package:botybuy/theme.dart';
+import 'package:botybuy/utils/bubble_indicator_painter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
