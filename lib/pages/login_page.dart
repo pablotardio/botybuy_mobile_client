@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 onPressed: _onSignInButtonPress,
                 child: Text(
-                  'salir',
+                  'Salir',
                   style: TextStyle(
                       color: left,
                       fontSize: 16.0,
@@ -142,7 +142,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 onPressed: _onSignUpButtonPress,
                 child: Text(
-                  'nuevo',
+                  'Nuevo',
                   style: TextStyle(
                       color: right,
                       fontSize: 16.0,
