@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:botybuy/pages/widgets/sign_in.dart';
-import 'package:botybuy/pages/widgets/sign_up.dart';
+import 'package:botybuy/pages/login_page/sign_in.dart';
+import 'package:botybuy/pages/login_page/sign_up.dart';
 import 'package:botybuy/theme.dart';
 import 'package:botybuy/utils/bubble_indicator_painter.dart';
 
