@@ -64,7 +64,7 @@ class _SignInState extends State<SignIn> {
                               color: Colors.black,
                               size: 22.0,
                             ),
-                            hintText: 'correo electronico',
+                            hintText: 'Correo electronico',
                             hintStyle: TextStyle(
                                 fontFamily: 'WorkSansSemiBold', fontSize: 17.0),
                           ),
@@ -227,47 +227,7 @@ class _SignInState extends State<SignIn> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, right: 40.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Facebook button pressed')),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.facebookF,
-                      color: Color(0xFF2979FF),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0),
-                child: GestureDetector(
-                  onTap: () => CustomSnackBar(
-                      context, const Text('Google button pressed')),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: const Icon(
-                      FontAwesomeIcons.google,
-                      color: Color(0xFFD50000),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          
         ],
       ),
     );
