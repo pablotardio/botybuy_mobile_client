@@ -1,3 +1,5 @@
+import 'package:botybuy/providers/usuario_provider.dart';
+import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:botybuy/theme.dart';
@@ -13,10 +15,10 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
-
+  UsuarioProvider _usuarioProvider = new UsuarioProvider();
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-
+  final prefs= new PreferenciasUsuario();
   bool _obscureTextPassword = true;
 
   @override
@@ -28,6 +30,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -160,8 +163,7 @@ class _SignInState extends State<SignIn> {
                           fontFamily: 'WorkSansBold'),
                     ),
                   ),
-                  onPressed: () => CustomSnackBar(
-                      context, const Text('Login button pressed')),
+                  onPressed: handleSubmit,
                 ),
               )
             ],
@@ -227,10 +229,18 @@ class _SignInState extends State<SignIn> {
               ],
             ),
           ),
-          
         ],
       ),
     );
+  }
+
+  handleSubmit() {
+    final responseUsuario = _usuarioProvider.login(
+        loginEmailController.text, loginPasswordController.text);
+    if (prefs.token != '') {
+      Navigator.pushNamed(context, 'home');
+    }
+    return CustomSnackBar(context, const Text('Login button pressed'));
   }
 
   void _toggleSignInButton() {
