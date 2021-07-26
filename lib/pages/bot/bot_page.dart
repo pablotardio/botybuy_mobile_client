@@ -175,41 +175,41 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
                 },
                 shouldShowLoadEarlier: false,
                 showTraillingBeforeSend: true,
-                trailing: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.photo),
-                    onPressed: () async {
-                      final picker = ImagePicker();
-                      PickedFile result = await picker.getImage(
-                        source: ImageSource.gallery,
-                        imageQuality: 80,
-                        maxHeight: 400,
-                        maxWidth: 400,
-                      );
+                // trailing: <Widget>[
+                //   IconButton(
+                //     icon: Icon(Icons.photo),
+                //     onPressed: () async {
+                //       final picker = ImagePicker();
+                //       PickedFile result = await picker.getImage(
+                //         source: ImageSource.gallery,
+                //         imageQuality: 80,
+                //         maxHeight: 400,
+                //         maxWidth: 400,
+                //       );
 
-                      // if (result != null) {
-                      //   final Reference storageRef =
-                      //       FirebaseStorage.instance.ref().child("chat_images");
+                //       // if (result != null) {
+                //       //   final Reference storageRef =
+                //       //       FirebaseStorage.instance.ref().child("chat_images");
 
-                      //   final taskSnapshot = await storageRef.putFile(
-                      //     File(result.path),
-                      //     SettableMetadata(
-                      //       contentType: 'image/jpg',
-                      //     ),
-                      //   );
+                //       //   final taskSnapshot = await storageRef.putFile(
+                //       //     File(result.path),
+                //       //     SettableMetadata(
+                //       //       contentType: 'image/jpg',
+                //       //     ),
+                //       //   );
 
-                      //   String url = await taskSnapshot.ref.getDownloadURL();
+                //       //   String url = await taskSnapshot.ref.getDownloadURL();
 
-                      //   ChatMessage message =
-                      //       ChatMessage(text: "", user: user, image: url);
+                //       //   ChatMessage message =
+                //       //       ChatMessage(text: "", user: user, image: url);
 
-                      //   FirebaseFirestore.instance
-                      //       .collection('messages')
-                      //       .add(message.toJson());
-                      // }
-                    },
-                  )
-                ],
+                //       //   FirebaseFirestore.instance
+                //       //       .collection('messages')
+                //       //       .add(message.toJson());
+                //       // }
+                //     },
+                //   )
+                // ],
               );
             }
           }),
