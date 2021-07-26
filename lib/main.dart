@@ -1,3 +1,4 @@
+import 'package:botybuy/pages/bot/bot_page.dart';
 import 'package:botybuy/pages/routes/routes.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Botybuy',
        initialRoute: 'login',
-      home: LoginPage(),
+      home: BotPage(),
       //routes: getApplicationRoutes()
     );
   }

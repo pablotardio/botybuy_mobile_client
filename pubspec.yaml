@@ -15,7 +15,8 @@ dependencies:
    font_awesome_flutter:
    http:
    shared_preferences:
-
+   image_picker:
+   dash_chat: ^1.1.16
 dev_dependencies:
    flutter_test:
       sdk: flutter
