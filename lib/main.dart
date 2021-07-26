@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:botybuy/pages/login_page/login_page.dart';
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs= new PreferenciasUsuario();
+  final prefs = new PreferenciasUsuario();
   prefs.initPrefs();
   SystemChrome.setPreferredOrientations(<DeviceOrientation>[
     DeviceOrientation.portraitUp,
@@ -24,8 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Botybuy',
       initialRoute: 'login',
-     // routes: getApplicationRoutes(),
-      home: LoginPage(),
+      //routes: getApplicationRoutes()
     );
   }
 }
