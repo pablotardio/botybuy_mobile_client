@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Botybuy',
-      initialRoute: 'login',
+       initialRoute: 'login',
+      home: LoginPage(),
       //routes: getApplicationRoutes()
     );
   }
