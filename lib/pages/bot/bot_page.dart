@@ -5,6 +5,8 @@ import 'dart:io';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dialogflow/flutter_dialogflow.dart';
+import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
@@ -33,7 +35,8 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
   var m = <ChatMessage>[];
 
   var i = 0;
-
+  Dialogflow dialogflow;
+  AuthGoogle authGoogle;
   @override
   void initState() {
     super.initState();
@@ -94,7 +97,7 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
     _chatCambiadoStreamController.sink.add(initialList);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat App"),
+        title: Text("BotyBuy"),
       ),
       body: StreamBuilder<List<ChatMessage>>(
           stream: _chatCambiadoStreamController
