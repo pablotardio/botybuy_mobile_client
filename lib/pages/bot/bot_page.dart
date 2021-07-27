@@ -5,7 +5,7 @@ import 'dart:io';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dialogflow/flutter_dialogflow.dart';
+import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -40,9 +40,21 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
   @override
   void initState() {
     super.initState();
-   
+    initializeDialogflow();
   }
 
+  /// Auth and initialize the dialogflow services
+  void initializeDialogflow()async{
+    AuthGoogle authGoogle= await AuthGoogle(fileJson: "assets/credentials/maribel-sawv-ce6d55876690.json").build();
+    dialogflow=Dialogflow(authGoogle:authGoogle, language: Language.spanish);
+  }
+  fetchFromDialogFlow(String input) async{
+    AIResponse response =await dialogflow.detectIntent(input);
+    print(response.getMessage());
+    final String textResponse=response.getMessage();
+    messages.add(ChatMessage(text: textResponse, user: ChatUser(name: 'Bot',uid:'25649654')));
+    _chatCambiadoStreamController.sink.add(messages);
+  }
   void systemMessage() {
     Timer(Duration(milliseconds: 300), () {
       if (i < 6) {
@@ -71,6 +83,7 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
     print(message.toJson());
     messages.add(message);
     _chatCambiadoStreamController.sink.add(messages);
+    fetchFromDialogFlow(message.text);
     // FirebaseFirestore.instance
     //     .collection('messages')
     //     .doc(DateTime.now().millisecondsSinceEpoch.toString())

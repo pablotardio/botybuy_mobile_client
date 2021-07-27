@@ -129,7 +129,7 @@ packages:
     source: hosted
     version: "9.1.0"
   googleapis_auth:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: googleapis_auth
       url: "https://pub.dartlang.org"
