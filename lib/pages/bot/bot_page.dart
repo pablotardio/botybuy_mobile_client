@@ -106,7 +106,7 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
   @override
   Widget build(BuildContext context) {
      List<ChatMessage> initialList=[];
-    initialList.add(ChatMessage(text: 'Hi', user: ChatUser(name: 'Bot',uid:'25649654')));
+    initialList.add(ChatMessage(text: 'Hola, bienvenido a botybuy! ', user: ChatUser(name: 'Bot',uid:'25649654')));
     _chatCambiadoStreamController.sink.add(initialList);
     return Scaffold(
       appBar: AppBar(
