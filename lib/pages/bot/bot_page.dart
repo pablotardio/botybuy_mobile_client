@@ -48,7 +48,7 @@ class _BotPageState extends State<BotPage> {
   /// Auth and initialize the dialogflow services
   void initializeDialogflow() async {
     AuthGoogle authGoogle = await AuthGoogle(
-            fileJson: "assets/credentials/maribel-sawv-ce6d55876690.json")
+            fileJson: "assets/credentials/botybuy-bot-srrn-bd58f9935dfc.json")
         .build();
     dialogflow = Dialogflow(authGoogle: authGoogle, language: Language.spanish);
   }
