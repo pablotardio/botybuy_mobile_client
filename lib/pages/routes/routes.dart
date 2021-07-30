@@ -9,6 +9,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     'login': (BuildContext context) => LoginPage(),
     'home': (BuildContext context) => HomePage(),
-    'bot': (BuildContext context) => BotPage(),
+    '/cliente/bot': (BuildContext context) => BotPage(),
   };
 }
