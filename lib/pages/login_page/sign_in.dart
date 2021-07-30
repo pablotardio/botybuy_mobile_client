@@ -238,7 +238,7 @@ class _SignInState extends State<SignIn> {
     final responseUsuario = _usuarioProvider.login(
         loginEmailController.text, loginPasswordController.text);
     if (prefs.token != '') {
-      Navigator.pushNamed(context, 'home');
+      Navigator.pushNamed(context,'bot');
     }
     return CustomSnackBar(context, const Text('Login button pressed'));
   }

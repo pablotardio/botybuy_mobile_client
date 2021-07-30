@@ -10,6 +10,7 @@ import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
+
 class BotPage extends StatefulWidget {
   const BotPage({Key key}) : super(key: key);
 
@@ -19,7 +20,8 @@ class BotPage extends StatefulWidget {
 
 class _BotPageState extends State<BotPage> {
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
-final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadcast();
+  final _chatCambiadoStreamController =
+      StreamController<List<ChatMessage>>.broadcast();
   final ChatUser user = ChatUser(
     name: "Fayeed",
     uid: "123456789",
@@ -30,7 +32,7 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
     name: "Bot",
     uid: "25649654",
   );
-  
+
   List<ChatMessage> messages = <ChatMessage>[];
   var m = <ChatMessage>[];
 
@@ -44,17 +46,22 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
   }
 
   /// Auth and initialize the dialogflow services
-  void initializeDialogflow()async{
-    AuthGoogle authGoogle= await AuthGoogle(fileJson: "assets/credentials/maribel-sawv-ce6d55876690.json").build();
-    dialogflow=Dialogflow(authGoogle:authGoogle, language: Language.spanish);
+  void initializeDialogflow() async {
+    AuthGoogle authGoogle = await AuthGoogle(
+            fileJson: "assets/credentials/maribel-sawv-ce6d55876690.json")
+        .build();
+    dialogflow = Dialogflow(authGoogle: authGoogle, language: Language.spanish);
   }
-  fetchFromDialogFlow(String input) async{
-    AIResponse response =await dialogflow.detectIntent(input);
+
+  fetchFromDialogFlow(String input) async {
+    AIResponse response = await dialogflow.detectIntent(input);
     print(response.getMessage());
-    final String textResponse=response.getMessage();
-    messages.add(ChatMessage(text: textResponse, user: ChatUser(name: 'Bot',uid:'25649654')));
+    final String textResponse = response.getMessage();
+    messages.add(ChatMessage(
+        text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
     _chatCambiadoStreamController.sink.add(messages);
   }
+
   void systemMessage() {
     Timer(Duration(milliseconds: 300), () {
       if (i < 6) {
@@ -64,16 +71,15 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
         i++;
       }
       Timer(Duration(milliseconds: 300), () {
-        if(_chatViewKey.currentState!=null){
+        if (_chatViewKey.currentState != null) {
           _chatViewKey.currentState?.scrollController
-          ..animateTo(
-            _chatViewKey
-                .currentState?.scrollController.position.maxScrollExtent,
-            curve: Curves.easeOut,
-            duration: const Duration(milliseconds: 300),
-          );
+            ..animateTo(
+              _chatViewKey
+                  .currentState?.scrollController.position.maxScrollExtent,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 300),
+            );
         }
-        
       });
     });
   }
@@ -105,18 +111,16 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
 
   @override
   Widget build(BuildContext context) {
-     List<ChatMessage> initialList=[];
-    initialList.add(ChatMessage(text: 'Hola, bienvenido a botybuy! ', user: ChatUser(name: 'Bot',uid:'25649654')));
-    _chatCambiadoStreamController.sink.add(initialList);
     return Scaffold(
       appBar: AppBar(
         title: Text("BotyBuy"),
       ),
       body: StreamBuilder<List<ChatMessage>>(
-          stream: _chatCambiadoStreamController
-              .stream,
+          stream: _chatCambiadoStreamController.stream,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
+              addInitialMessage();
+              print('added initial message');
               return Center(
                 child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(
@@ -230,5 +234,13 @@ final _chatCambiadoStreamController = StreamController<List<ChatMessage>>.broadc
             }
           }),
     );
+  }
+
+  void addInitialMessage() {
+    List<ChatMessage> initialList = [];
+    initialList.add(ChatMessage(
+        text: 'Hola, bienvenido a botybuy! ',
+        user: ChatUser(name: 'Bot', uid: '25649654')));
+    _chatCambiadoStreamController.sink.add(initialList);
   }
 }

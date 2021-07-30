@@ -159,6 +159,7 @@ class _LoginPageState extends State<LoginPage>
   void _onSignInButtonPress() {
     _pageController.animateToPage(0,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
+       
   }
 
   void _onSignUpButtonPress() {
