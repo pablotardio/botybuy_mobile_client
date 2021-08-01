@@ -57,9 +57,24 @@ class _BotPageState extends State<BotPage> {
     AIResponse response = await dialogflow.detectIntent(input);
     print(response.getMessage());
     final String textResponse = response.getMessage();
-    messages.add(ChatMessage(
-        text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
-    _chatCambiadoStreamController.sink.add(messages);
+    //si la respuesta es un solo mensaje
+    if (textResponse != null) {
+      messages.add(ChatMessage(
+          text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
+      _chatCambiadoStreamController.sink.add(messages);
+      
+    } else {
+      //si la respuesta son varios mensajes
+      final List<dynamic> listResponse = response.getListMessage();
+       for (var message in listResponse) {
+         Map<String,dynamic> messageSubText= message['text'];
+      messages.add(ChatMessage(
+      text:messageSubText['text'][0], user: ChatUser(name: 'Bot', uid: '25649654')));
+     _chatCambiadoStreamController.sink.add(messages);
+    }
+    }
+
+   
   }
 
   void systemMessage() {
