@@ -4,6 +4,7 @@ import 'dart:io';
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
+import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
@@ -19,6 +20,7 @@ class BotPage extends StatefulWidget {
 }
 
 class _BotPageState extends State<BotPage> {
+  final prefs= new PreferenciasUsuario();
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   final _chatCambiadoStreamController =
       StreamController<List<ChatMessage>>.broadcast();
@@ -54,7 +56,15 @@ class _BotPageState extends State<BotPage> {
   }
 
   fetchFromDialogFlow(String input) async {
-    AIResponse response = await dialogflow.detectIntent(input);
+    final payload={
+      'userToken':prefs.token
+    };
+    final  queryInput='{ "text":{"text":$input}}';
+    final queryParams =
+          '{"payload": $payload}';
+    final query='{"queryParams":$queryParams,"queryInput":$queryInput}';
+
+    AIResponse response = await dialogflow.detectIntent(query);
     print(response.getMessage());
     final String textResponse = response.getMessage();
     //si la respuesta es un solo mensaje
