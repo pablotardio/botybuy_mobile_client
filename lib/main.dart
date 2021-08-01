@@ -20,13 +20,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Botybuy',
-      initialRoute: 'login',
-      home: BotPage(),
-      theme: ThemeData(primaryColor: Colors.purple[800]),
-      routes: getApplicationRoutes()
-    );
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Botybuy',
+        initialRoute: 'verproducto',
+        home: BotPage(),
+        theme: ThemeData(primaryColor: Colors.purple[800]),
+        routes: getApplicationRoutes());
   }
 }
