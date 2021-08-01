@@ -21,6 +21,6 @@ class CustomDialogFlowProvider {
           HttpHeaders.authorizationHeader: "Bearer ${authGoogle.getToken}"
         },
         body:
-            "{'queryInput':{'text':{'text':'$queryMessage','language_code':'$language'}}},{'payload': $payload}");
+            "{'queryInput':{'text':{'text':'$queryMessage','language_code':'$language'}},'queryParams':{'payload': $payload}}");
     return AIResponse(body: json.decode(response.body));
   }}
