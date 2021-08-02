@@ -1,5 +1,6 @@
 import 'package:botybuy/pages/bot/bot_page.dart';
 import 'package:botybuy/pages/crud_producto_page/producto_crear.dart';
+import 'package:botybuy/pages/crud_producto_page/producto_listar.dart';
 import 'package:botybuy/pages/crud_producto_page/producto_page.dart';
 import 'package:botybuy/pages/crud_producto_page/producto_ver.dart';
 import 'package:botybuy/pages/home_page/home_page.dart';
@@ -13,6 +14,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/cliente/bot': (BuildContext context) => BotPage(),
     'producto': (BuildContext context) => ProductoPage(),
     'agregarProducto': (BuildContext context) => AddProductPage(),
-    'verproducto': (BuildContext contect) => ShowProductPage(),
+    'verproducto': (BuildContext context) => ShowProductPage(),
+    'listarProductos': (BuildContext context) => ProductsPage(),
   };
 }
