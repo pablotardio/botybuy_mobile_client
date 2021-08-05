@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         data.forEach((element) {
           myItems.add(ListTile(
             title: Text(element['titulo']),
-            subtitle: Text('Esto es un item del menu'),
+            // subtitle: Text('Esto es un item del menu'),
             trailing: Icon(Icons.arrow_forward_ios),
             onTap: () {
               //para navegar entre rutas

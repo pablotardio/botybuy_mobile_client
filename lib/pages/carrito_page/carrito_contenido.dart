@@ -31,7 +31,7 @@ class _CarritoContenidoState extends State<CarritoContenido> {
   }
 
   List<Widget> _listarItemsCarrito(BuildContext context, List<dynamic> data) {
-    print(data);
+    //print(data);
     List<Widget> itemsCarrito = [];
     data.forEach((carritoActual) {
      ProductoCarrito parsedProducto=ProductoCarrito.fromJson(carritoActual);

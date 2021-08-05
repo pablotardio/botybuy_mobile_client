@@ -22,10 +22,10 @@ class CarritoPage extends StatelessWidget {
           Text(
             "Tu carrito"
           ),
-          Text(
-            "${demoCarts.length} items",
-            style: Theme.of(context).textTheme.caption,
-          ),
+          // Text(
+          //   "${demoCarts.length} items",
+          //   style: Theme.of(context).textTheme.caption,
+          // ),
         ],
       ),
     );
