@@ -1,4 +1,5 @@
 import 'package:botybuy/models/Carrito.dart';
+import 'package:botybuy/models/CarritoModel.dart';
 import 'package:flutter/material.dart';
 
 //import '../../../constants.dart';
@@ -10,7 +11,7 @@ class CarritoCard extends StatelessWidget {
     @required this.cart,
   }) : super(key: key);
 
-  final Carrito cart;
+  final ProductoCarrito cart;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class CarritoCard extends StatelessWidget {
                 color: Color(0xFFF5F6F9),
                 borderRadius: BorderRadius.circular(15),
               ),
-              child: Image.asset(cart.product.images[0]),
+             // child: Image.asset(cart.product.images[0]),
             ),
           ),
         ),
@@ -35,19 +36,19 @@ class CarritoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cart.product.title,
+              cart.nombre,
               style: TextStyle(color: Colors.black, fontSize: 16),
               maxLines: 2,
             ),
             SizedBox(height: 10),
             Text.rich(
               TextSpan(
-                text: "\$${cart.product.price}",
+                text: "\Bs.${cart.detalleOrden.precioUnitario}",
                 style: TextStyle(
                     fontWeight: FontWeight.w600, color:  Theme.of(context).primaryColor),
                 children: [
                   TextSpan(
-                      text: " x${cart.numOfItem}",
+                      text: " x${cart.detalleOrden.cantidad}",
                       style: Theme.of(context).textTheme.bodyText1),
                 ],
               ),

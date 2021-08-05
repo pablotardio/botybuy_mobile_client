@@ -10,7 +10,7 @@ class CarritoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-    //  body: CarritoContenido(),
+     body: CarritoContenido(),
     bottomNavigationBar: CheckoutCard(),
     );
   }
@@ -20,8 +20,7 @@ class CarritoPage extends StatelessWidget {
       title: Column(
         children: [
           Text(
-            "Your Cart",
-            style: TextStyle(color: Colors.black),
+            "Tu carrito"
           ),
           Text(
             "${demoCarts.length} items",
