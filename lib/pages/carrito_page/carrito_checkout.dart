@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:botybuy/widgets/default_button.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
@@ -6,10 +8,11 @@ import 'package:flutter/material.dart';
 import '../../../size_config.dart';
 
 class CheckoutCard extends StatelessWidget {
+  
   const CheckoutCard({
-    Key key,
+    Key key, this.cuentaCarrito
   }) : super(key: key);
-
+  final double cuentaCarrito;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,7 +72,7 @@ class CheckoutCard extends StatelessWidget {
                     text: "Total:\n",
                     children: [
                       TextSpan(
-                        text: "\$337.15",
+                        text: this.cuentaCarrito.toString(),
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ],
@@ -78,7 +81,7 @@ class CheckoutCard extends StatelessWidget {
                 SizedBox(
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
-                    text: "Check Out",
+                    text: "Continuar reserva",
                     press: () {},
                   ),
                 ),

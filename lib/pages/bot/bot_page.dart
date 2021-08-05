@@ -47,7 +47,7 @@ class _BotPageState extends State<BotPage> {
     super.initState();
     initializeDialogflow();
   }
-
+ 
   /// Auth and initialize the dialogflow services
   void initializeDialogflow() async {
     AuthGoogle authGoogle = await AuthGoogle(

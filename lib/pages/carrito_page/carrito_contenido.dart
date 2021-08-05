@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:botybuy/models/Carrito.dart';
 import 'package:botybuy/models/CarritoModel.dart';
 import 'package:botybuy/pages/carrito_page/carrito_card.dart';
@@ -6,15 +8,13 @@ import 'package:flutter/material.dart';
 
 import '../../../size_config.dart';
 
-class CarritoContenido extends StatefulWidget {
-  @override
-  _CarritoContenidoState createState() => _CarritoContenidoState();
-}
+class CarritoContenido extends StatelessWidget {
+  final Function(double) asignarCuenta;
+  const CarritoContenido({Key key, this.asignarCuenta}) : super(key: key);
 
-class _CarritoContenidoState extends State<CarritoContenido> {
-  final _carritoProvider = new CarritoProvider();
   @override
   Widget build(BuildContext context) {
+    final _carritoProvider = new CarritoProvider();
     return Padding(
         padding:
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -33,17 +33,19 @@ class _CarritoContenidoState extends State<CarritoContenido> {
   List<Widget> _listarItemsCarrito(BuildContext context, List<dynamic> data) {
     //print(data);
     List<Widget> itemsCarrito = [];
+    double cuenta=0;
     data.forEach((carritoActual) {
      ProductoCarrito parsedProducto=ProductoCarrito.fromJson(carritoActual);
+      cuenta+=parsedProducto.detalleOrden.precioUnitario*parsedProducto.detalleOrden.cantidad;
       itemsCarrito.add(Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Dismissible(
           key: Key(parsedProducto.id.toString()),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
-            setState(() {
-              // demoCarts.removeAt(carritoActual.id);
-            });
+            // setState(() {
+            //   // demoCarts.removeAt(carritoActual.id);
+            // });
           },
           background: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -62,6 +64,7 @@ class _CarritoContenidoState extends State<CarritoContenido> {
         ),
       ));
     });
+    this.asignarCuenta(cuenta);
     return itemsCarrito;
   }
 }
