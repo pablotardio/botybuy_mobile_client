@@ -28,6 +28,23 @@ class OrdenProvider {
       print(e);
     }
   }
+    Future<List<dynamic>> getMisSolicitudesCliente() async {
+    try {
+      
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/orden/cliente/solicitudes'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      // print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
   Future<List<dynamic>> getDetalleOrden(int id) async {
     try {
       

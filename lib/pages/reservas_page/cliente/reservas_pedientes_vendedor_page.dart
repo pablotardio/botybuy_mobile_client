@@ -36,7 +36,7 @@ class _ReservasPendienteClientePageState
           children: _listarSolicitudes(context, snapshot.data),
         );
       },
-      future: _ordenProvider.getSolicitudes(),
+      future: _ordenProvider.getMisSolicitudesCliente(),
     );
   }
 
