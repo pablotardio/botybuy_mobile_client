@@ -1,18 +1,19 @@
-import 'package:botybuy/pages/reservas_page/detalle_reservas_pendientes.dart';
+
+import 'package:botybuy/pages/reservas_page/vendedor/detalle_reservas_pendientes.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/widgets/button_option.dart';
 import 'package:flutter/material.dart';
 
-class ReservasPendienteVendedorPage extends StatefulWidget {
-  ReservasPendienteVendedorPage({Key key}) : super(key: key);
+class ReservasPendienteClientePage extends StatefulWidget {
+  ReservasPendienteClientePage({Key key}) : super(key: key);
 
   @override
-  _ReservasPendienteVendedorPageState createState() =>
-      _ReservasPendienteVendedorPageState();
+  _ReservasPendienteClientePageState createState() =>
+      _ReservasPendienteClientePageState();
 }
 
-class _ReservasPendienteVendedorPageState
-    extends State<ReservasPendienteVendedorPage> {
+class _ReservasPendienteClientePageState
+    extends State<ReservasPendienteClientePage> {
   
 
   final _ordenProvider = new OrdenProvider();

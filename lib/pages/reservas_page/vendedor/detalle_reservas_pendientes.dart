@@ -1,6 +1,6 @@
 import 'package:botybuy/models/CarritoModel.dart';
 import 'package:botybuy/pages/carrito_page/carrito_card.dart';
-import 'package:botybuy/pages/reservas_page/BottomOptions.dart';
+import 'package:botybuy/pages/reservas_page/vendedor/BottomOptions.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/size_config.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 class DetalleReservasPendientes extends StatelessWidget {
   final int ordenId;
   final Widget options;
-
-  const DetalleReservasPendientes({Key key, this.ordenId, this.options})
+  final bool hasOptions;
+  const DetalleReservasPendientes({Key key, this.ordenId, this.options,this.hasOptions=true})
       : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class DetalleReservasPendientes extends StatelessWidget {
               );
             },
           )),
-          bottomNavigationBar: BottomOptions(options: this.options),
+          bottomNavigationBar: hasOptions?BottomOptions(options: this.options):null,
     );
     
   }
