@@ -29,37 +29,5 @@ class CarritoProvider {
     }
   }
 
-  Future<Map<String, dynamic>> register(
-      String nombre, String celular, String email, String password) async {
-    try {
-      final authdata = {
-        'nombre': nombre,
-        'celular': int.parse(celular),
-        'email': email,
-        'password': password,
-        'rolId': 3,
-        'returnSecureToken': true
-      };
-      final headers = {"Content-Type": "application/json"};
-
-      final response = await http.post(
-        new Uri.http(_host, '/api/register'),
-        headers: headers,
-        body: json.encode(authdata),
-      );
-      Map<String, dynamic> decodedResp = json.decode(response.body);
-      // print(decodedResp);
-      if (decodedResp.containsKey('token')) {
-        return {
-          'ok': true,
-          'token': decodedResp['token'],
-          'vistas': decodedResp['vistas']
-        };
-      } else {
-        return {'ok': false};
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  
 }
