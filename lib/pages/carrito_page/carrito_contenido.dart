@@ -34,7 +34,7 @@ class CarritoContenido extends StatelessWidget {
     //print(data);
     List<Widget> itemsCarrito = [];
     double cuenta=0;
-    data.forEach((carritoActual) {
+    data?.forEach((carritoActual) {
      ProductoCarrito parsedProducto=ProductoCarrito.fromJson(carritoActual);
       cuenta+=parsedProducto.detalleOrden.precioUnitario*parsedProducto.detalleOrden.cantidad;
       itemsCarrito.add(Padding(
