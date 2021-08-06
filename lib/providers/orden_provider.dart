@@ -45,7 +45,24 @@ class OrdenProvider {
       print(e);
     }
   }
+  Future<List<dynamic>> changeEstado(int id,String estado) async {
+    try {
+      
+      final headers = getHeaders();
 
+      final response = await http.put(
+        new Uri.http(_host, '/api/orden/actualizarEstado/'+id.toString()),
+        headers: headers,
+        body: json.encode({'estado':estado})
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
   Future<Map<String, dynamic>> register(
       String nombre, String celular, String email, String password) async {
     try {

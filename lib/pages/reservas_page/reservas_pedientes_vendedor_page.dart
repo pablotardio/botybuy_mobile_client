@@ -1,5 +1,6 @@
 import 'package:botybuy/pages/reservas_page/detalle_reservas_pendientes.dart';
 import 'package:botybuy/providers/orden_provider.dart';
+import 'package:botybuy/widgets/button_option.dart';
 import 'package:flutter/material.dart';
 
 class ReservasPendienteVendedorPage extends StatefulWidget {
@@ -12,22 +13,8 @@ class ReservasPendienteVendedorPage extends StatefulWidget {
 
 class _ReservasPendienteVendedorPageState
     extends State<ReservasPendienteVendedorPage> {
-  final botones = {
-    "PENDIENTE": Row(
-      children: [
-        MaterialButton(child: Text('Aceptar'), onPressed: () {}),
-        MaterialButton(child: Text('Cancelar'), onPressed: () {})
-      ],
-    ),
-    "ACEPTADO":
-        MaterialButton(child: Text('Confirmar Preparacion'), onPressed: () {}),
-    "CANCELADO": Text('Pedido Cancelado'),
-    "PREPARACION":
-        MaterialButton(child: Text('Confirmar Reserva'), onPressed: () {}),
-    "RESERVADO": MaterialButton(onPressed: () {}),
-    "PAGADO": MaterialButton(onPressed: () {}),
-    "ENTREGADO": MaterialButton(onPressed: () {}),
-  };
+  
+
   final _ordenProvider = new OrdenProvider();
   @override
   Widget build(BuildContext context) {
@@ -74,9 +61,41 @@ class _ReservasPendienteVendedorPageState
       context,
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
-          ordenId: ordenActual['id'],options: botones[ordenActual['estado'].toString()],
+          ordenId: ordenActual['id'],
+          options: getOptions(ordenActual['id'],ordenActual['estado']),
         ),
       ),
     );
+  }
+
+  Widget getOptions(int id,String estado){
+
+      final botones = {
+    "PENDIENTE": Row(
+      children: [
+        ButtonOption(
+          titulo: 'Aceptar',
+          onPressed: () async{await _ordenProvider.changeEstado(id,'ACEPTADO');},
+        ),
+        ButtonOption(
+          titulo: 'Cancelar',
+          onPressed: () async{await _ordenProvider.changeEstado(id,'CANCELADO');},
+        ),
+      ],
+    ),
+    "ACEPTADO": ButtonOption(
+      titulo: 'Confirmar Preparacion',
+      onPressed:  () async{await _ordenProvider.changeEstado(id,'PREPARACION');},
+    ),
+    "CANCELADO": Text('Pedido Cancelado'),
+    "PREPARACION": ButtonOption(
+      titulo: 'Confirmar Reserva',
+      onPressed:() async{await _ordenProvider.changeEstado(id,'RESERVADO');},
+    ),
+    "RESERVADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+    "PAGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+    "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+  };
+  return botones[estado];
   }
 }
