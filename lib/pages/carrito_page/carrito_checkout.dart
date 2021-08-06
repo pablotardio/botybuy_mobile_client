@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:botybuy/providers/carrito_provider.dart';
 import 'package:botybuy/widgets/default_button.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,6 +17,7 @@ class CheckoutCard extends StatelessWidget {
   final double cuentaCarrito;
   @override
   Widget build(BuildContext context) {
+  
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getProportionateScreenWidth(15),
@@ -82,7 +85,7 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Continuar reserva",
-                    press: () {},
+                    press: () {handlePressCheckout(context);},
                   ),
                 ),
               ],
@@ -91,5 +94,11 @@ class CheckoutCard extends StatelessWidget {
         ),
       ),
     );
+  }
+  handlePressCheckout(context) async{
+      final _carritoProvider= new CarritoProvider();
+    _carritoProvider.confirmarCarrito();
+    CustomSnackBar(context, const Text('Carrito Confirmado'));
+    
   }
 }

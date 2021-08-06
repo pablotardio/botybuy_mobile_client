@@ -61,7 +61,7 @@ class _ReservasPendienteClientePageState
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DetalleReservasPendientes(
+        builder: (context) => DetalleReservasPendientes(hasOptions: false,
           ordenId: ordenActual['id'],
           options: getOptions(ordenActual['id'],ordenActual['estado']),
         ),

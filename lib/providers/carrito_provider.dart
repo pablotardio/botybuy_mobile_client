@@ -28,6 +28,23 @@ class CarritoProvider {
       print(e);
     }
   }
+  Future<List<dynamic>> confirmarCarrito() async {
+    try {
+      
+      final headers = getHeaders();
 
+      final response = await http.put(
+        new Uri.http(_host, '/api/carrito/confirmar'),
+        headers: headers,
+      
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
   
 }
