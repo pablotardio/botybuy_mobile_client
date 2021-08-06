@@ -1,5 +1,6 @@
 import 'package:botybuy/models/CarritoModel.dart';
 import 'package:botybuy/pages/carrito_page/carrito_card.dart';
+import 'package:botybuy/pages/reservas_page/BottomOptions.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/size_config.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,11 @@ class DetalleReservasPendientes extends StatelessWidget {
               );
             },
           )),
+          bottomNavigationBar: BottomOptions(options: this.options),
     );
+    
   }
-
+ 
   List<Widget> _listarItemsOrden(BuildContext context, List<dynamic> data) {
     //print(data);
     List<Widget> itemsCarrito = [];

@@ -61,18 +61,22 @@ class _ReservasPendienteVendedorPageState
         title: Text(ordenActual['estado'] + '#' + ordenActual['id'].toString()),
         subtitle: Text(ordenActual['fechaPedido']),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetalleReservasPendientes(
-                ordenId: ordenActual['id'],
-              ),
-            ),
-          );
+          NavigateInDetalle(context, ordenActual);
         },
       ));
     });
 
     return itemsOrden;
+  }
+
+  void NavigateInDetalle(BuildContext context, ordenActual) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetalleReservasPendientes(
+          ordenId: ordenActual['id'],options: botones[ordenActual['estado'].toString()],
+        ),
+      ),
+    );
   }
 }
