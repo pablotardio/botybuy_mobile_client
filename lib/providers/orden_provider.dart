@@ -28,6 +28,40 @@ class OrdenProvider {
       print(e);
     }
   }
+    Future<List<dynamic>> getPagosPendientes() async {
+    try {
+      
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/orden/cajero/solicitudes'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      // print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+      Future<List<dynamic>> getEntregasPendientes() async {
+    try {
+      
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/orden/vendedor/entregas'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      // print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
     Future<List<dynamic>> getMisSolicitudesCliente() async {
     try {
       
