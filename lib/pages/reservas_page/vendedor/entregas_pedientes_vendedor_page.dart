@@ -1,21 +1,17 @@
-
 import 'package:botybuy/pages/reservas_page/vendedor/detalle_reservas_pendientes.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/widgets/button_option.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class EntregasVendedorPage extends StatefulWidget {
   EntregasVendedorPage({Key key}) : super(key: key);
 
   @override
-  _EntregasVendedorPageState createState() =>
-      _EntregasVendedorPageState();
+  _EntregasVendedorPageState createState() => _EntregasVendedorPageState();
 }
 
-class _EntregasVendedorPageState
-    extends State<EntregasVendedorPage> {
-  
-
+class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
   final _ordenProvider = new OrdenProvider();
   @override
   Widget build(BuildContext context) {
@@ -63,21 +59,25 @@ class _EntregasVendedorPageState
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
           ordenId: ordenActual['id'],
-          options: getOptions(ordenActual['id'],ordenActual['estado']),
+          options: getOptions(ordenActual['id'], ordenActual['estado']),
         ),
       ),
     );
   }
 
-  Widget getOptions(int id,String estado){
-
-      final botones = {
-    "PAGADO":  ButtonOption(
-      titulo: 'Confirmar Entrega',
-      onPressed:() async{await _ordenProvider.changeEstado(id,'ENTREGADO');},
-    ),
-    "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-  };
-  return botones[estado];
+  Widget getOptions(int id, String estado) {
+    final botones = {
+      "PAGADO": ButtonOption(
+        titulo: 'Confirmar Entrega',
+        onPressed: () async {
+          await _ordenProvider.changeEstado(id, 'ENTREGADO');
+          CustomSnackBar(
+              context, const Text('Se ha confirmado la entrega de la orden'));
+        },
+      ),
+      
+      //"ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+    };
+    return botones[estado];
   }
 }
