@@ -76,7 +76,7 @@ class _ReservasPendienteCajeroPageState
    
     "RESERVADO": ButtonOption(
       titulo: 'Confirmar Pago',
-      onPressed:() async{await _ordenProvider.changeEstado(id,'RESERVADO');},
+      onPressed:() async{await _ordenProvider.changeEstado(id,'PAGADO');},
     )
   };
   return botones[estado];

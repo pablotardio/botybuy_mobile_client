@@ -72,29 +72,10 @@ class _EntregasVendedorPageState
   Widget getOptions(int id,String estado){
 
       final botones = {
-    "PENDIENTE": Row(
-      children: [
-        ButtonOption(
-          titulo: 'Aceptar',
-          onPressed: () async{await _ordenProvider.changeEstado(id,'ACEPTADO');},
-        ),
-        ButtonOption(
-          titulo: 'Cancelar',
-          onPressed: () async{await _ordenProvider.changeEstado(id,'CANCELADO');},
-        ),
-      ],
-    ),
-    "ACEPTADO": ButtonOption(
-      titulo: 'Confirmar Preparacion',
-      onPressed:  () async{await _ordenProvider.changeEstado(id,'PREPARACION');},
-    ),
-    "CANCELADO": Text('Pedido Cancelado'),
-    "PREPARACION": ButtonOption(
-      titulo: 'Confirmar Reserva',
+    "PAGADO":  ButtonOption(
+      titulo: 'Confirmar Entrega',
       onPressed:() async{await _ordenProvider.changeEstado(id,'ENTREGADO');},
     ),
-    "RESERVADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-    "PAGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
     "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
   };
   return botones[estado];
