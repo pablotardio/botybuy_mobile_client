@@ -6,7 +6,7 @@ class ProductoCarrito {
   int cantidad;
   int tiendaId;
   DetalleOrden detalleOrden;
-  List<Null> imagenProductos;
+  List<ImagenProductos> imagenProductos;
 
   ProductoCarrito(
       {this.id,
@@ -29,10 +29,10 @@ class ProductoCarrito {
         ? new DetalleOrden.fromJson(json['detalleOrden'])
         : null;
     if (json['imagenProductos'] != null) {
-      imagenProductos = new List<Null>();
-      // json['imagenProductos'].forEach((v) {
-      //   imagenProductos.add(new Null.fromJson(v));
-      // });
+      imagenProductos = new List<ImagenProductos>();
+      json['imagenProductos'].forEach((v) {
+        imagenProductos.add(new ImagenProductos.fromJson(v));
+      });
     }
   }
 
@@ -47,10 +47,10 @@ class ProductoCarrito {
     if (this.detalleOrden != null) {
       data['detalleOrden'] = this.detalleOrden.toJson();
     }
-    // if (this.imagenProductos != null) {
-    //   data['imagenProductos'] =
-    //       this.imagenProductos.map((v) => v.toJson()).toList();
-    // }
+    if (this.imagenProductos != null) {
+      data['imagenProductos'] =
+          this.imagenProductos.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -87,6 +87,31 @@ class DetalleOrden {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['ordenId'] = this.ordenId;
+    data['productoId'] = this.productoId;
+    return data;
+  }
+}
+
+class ImagenProductos {
+  int id;
+  String url;
+  String cloudId;
+  int productoId;
+
+  ImagenProductos({this.id, this.url, this.cloudId, this.productoId});
+
+  ImagenProductos.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    url = json['url'];
+    cloudId = json['cloudId'];
+    productoId = json['productoId'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['url'] = this.url;
+    data['cloudId'] = this.cloudId;
     data['productoId'] = this.productoId;
     return data;
   }
