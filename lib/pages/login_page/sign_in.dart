@@ -234,9 +234,9 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  handleSubmit() {
-    final responseUsuario = _usuarioProvider.login(
-        loginEmailController.text, loginPasswordController.text);
+  handleSubmit() async{
+    final responseUsuario = await  _usuarioProvider.login(
+    loginEmailController.text, loginPasswordController.text);
     if (prefs.token != '') {
       Navigator.pushNamed(context,'home');
     }
