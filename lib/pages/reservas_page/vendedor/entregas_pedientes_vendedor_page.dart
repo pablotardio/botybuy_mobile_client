@@ -70,6 +70,11 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
       "PAGADO": ButtonOption(
         titulo: 'Confirmar Entrega',
         onPressed: () async {
+          setState(() {
+            //Haciendo fetch de nuevo
+          });
+          //volviendo atras
+          Navigator.pop(context);
           await _ordenProvider.changeEstado(id, 'ENTREGADO');
           CustomSnackBar(
               context, const Text('Se ha confirmado la entrega de la orden'));

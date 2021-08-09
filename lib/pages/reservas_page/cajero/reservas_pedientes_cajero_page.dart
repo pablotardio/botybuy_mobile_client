@@ -77,7 +77,13 @@ class _ReservasPendienteCajeroPageState
    
     "RESERVADO": ButtonOption(
       titulo: 'Confirmar Pago',
-      onPressed:() async{await _ordenProvider.changeEstado(id,'PAGADO');
+      onPressed:() async{
+        setState(() {
+            //Haciendo fetch de nuevo
+          });
+          //volviendo atras
+          Navigator.pop(context);
+        await _ordenProvider.changeEstado(id,'PAGADO');
        CustomSnackBar(context, const Text('Se ha confirmado el pago de la orden' ));},
     )
   };

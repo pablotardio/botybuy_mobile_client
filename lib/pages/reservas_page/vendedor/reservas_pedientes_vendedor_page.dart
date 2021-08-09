@@ -75,6 +75,7 @@ class _ReservasPendienteVendedorPageState
             titulo: 'Aceptar',
             onPressed: () async {
               await _ordenProvider.changeEstado(id, 'ACEPTADO');
+               updateViewAndNavigateBack();
               CustomSnackBar(context, const Text('Se ha aceptadp la orden'));
             },
           ),
@@ -82,6 +83,7 @@ class _ReservasPendienteVendedorPageState
             titulo: 'Cancelar',
             onPressed: () async {
               await _ordenProvider.changeEstado(id, 'CANCELADO');
+               updateViewAndNavigateBack();
               CustomSnackBar(context, const Text('Se ha Camceñadp la orden'));
             },
           ),
@@ -90,7 +92,9 @@ class _ReservasPendienteVendedorPageState
       "ACEPTADO": ButtonOption(
         titulo: 'Confirmar Preparacion',
         onPressed: () async {
+
           await _ordenProvider.changeEstado(id, 'PREPARACION');
+           updateViewAndNavigateBack();
           CustomSnackBar(
               context,
               const Text(
@@ -102,6 +106,7 @@ class _ReservasPendienteVendedorPageState
         titulo: 'Confirmar Reserva',
         onPressed: () async {
           await _ordenProvider.changeEstado(id, 'RESERVADO');
+          updateViewAndNavigateBack();
           CustomSnackBar(context,
               const Text('Se ha confirmado la reserva de la orden lista'));
         },
@@ -111,5 +116,13 @@ class _ReservasPendienteVendedorPageState
       "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
     };
     return botones[estado];
+  }
+
+  void updateViewAndNavigateBack() {
+    setState(() {
+      //Haciendo fetch de nuevo
+    });
+    //volviendo atras
+    Navigator.pop(context);
   }
 }
