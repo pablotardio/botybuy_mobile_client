@@ -6,12 +6,14 @@ import 'dart:io';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:botybuy/providers/custom_dialogflow_provider.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
+import 'package:botybuy/utils/launchUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
+
 class BotPage extends StatefulWidget {
   const BotPage({Key key}) : super(key: key);
 
@@ -163,7 +165,7 @@ class _BotPageState extends State<BotPage> {
                       ),
                       onTap: (String value) {
                         print(value);
-                        
+                        launchURL(value);
                       }),
                 ],
                 key: _chatViewKey,
