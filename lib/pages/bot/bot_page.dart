@@ -12,7 +12,6 @@ import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
-
 class BotPage extends StatefulWidget {
   const BotPage({Key key}) : super(key: key);
 
@@ -21,7 +20,7 @@ class BotPage extends StatefulWidget {
 }
 
 class _BotPageState extends State<BotPage> {
-  final prefs= new PreferenciasUsuario();
+  final prefs = new PreferenciasUsuario();
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   final _chatCambiadoStreamController =
       StreamController<List<ChatMessage>>.broadcast();
@@ -47,20 +46,21 @@ class _BotPageState extends State<BotPage> {
     super.initState();
     initializeDialogflow();
   }
- 
+
   /// Auth and initialize the dialogflow services
   void initializeDialogflow() async {
     AuthGoogle authGoogle = await AuthGoogle(
             fileJson: "assets/credentials/botybuy-bot-srrn-bd58f9935dfc.json")
         .build();
-    dialogflow = CustomDialogFlowProvider(authGoogle: authGoogle, language: Language.spanish);
+    dialogflow = CustomDialogFlowProvider(
+        authGoogle: authGoogle, language: Language.spanish);
   }
 
   fetchFromDialogFlow(String input) async {
-    final payload="{'userToken':'${prefs.token}'}";
+    final payload = "{'userToken':'${prefs.token}'}";
     print('${prefs.token}');
 
-    AIResponse response = await dialogflow.detectIntent(input,payload);
+    AIResponse response = await dialogflow.detectIntent(input, payload);
     print(response.getMessage());
     final String textResponse = response.getMessage();
     //si la respuesta es un solo mensaje
@@ -68,19 +68,17 @@ class _BotPageState extends State<BotPage> {
       messages.add(ChatMessage(
           text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
       _chatCambiadoStreamController.sink.add(messages);
-      
     } else {
       //si la respuesta son varios mensajes
       final List<dynamic> listResponse = response.getListMessage();
-       for (var message in listResponse) {
-         Map<String,dynamic> messageSubText= message['text'];
-      messages.add(ChatMessage(
-      text:messageSubText['text'][0], user: ChatUser(name: 'Bot', uid: '25649654')));
-     _chatCambiadoStreamController.sink.add(messages);
+      for (var message in listResponse) {
+        Map<String, dynamic> messageSubText = message['text'];
+        messages.add(ChatMessage(
+            text: messageSubText['text'][0],
+            user: ChatUser(name: 'Bot', uid: '25649654')));
+        _chatCambiadoStreamController.sink.add(messages);
+      }
     }
-    }
-
-   
   }
 
   void systemMessage() {
@@ -154,14 +152,28 @@ class _BotPageState extends State<BotPage> {
               //var messages =
               //    items.map((i) => ChatMessage.fromJson(i.data()?i.data():[])).toList();
               return DashChat(
+                parsePatterns: <MatchText>[
+                  MatchText(
+                      type: ParsedType.CUSTOM,
+                      pattern:
+                          r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontSize: 14,
+                      ),
+                      onTap: (String value) {
+                        print(value);
+                        
+                      }),
+                ],
                 key: _chatViewKey,
                 inverted: false,
                 onSend: onSend,
                 sendOnEnter: true,
                 textInputAction: TextInputAction.send,
                 user: user,
-                inputDecoration:
-                    InputDecoration.collapsed(hintText: "Add message here..."),
+                inputDecoration: InputDecoration.collapsed(
+                    hintText: "Escribir mensaje aqui..."),
                 dateFormat: DateFormat('yyyy-MMM-dd'),
                 timeFormat: DateFormat('HH:mm'),
                 messages: messages,
