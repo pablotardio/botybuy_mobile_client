@@ -40,23 +40,8 @@ class DetalleProductoPage extends StatelessWidget {
                   children: _getDetalleProducto(context, snapshot.data),
                 );
               },
-            )));
-  }
-
-  List<Widget> _getDetalleProducto(
-      BuildContext context, Map<String, dynamic> data) {
-    final ProductoModel product = ProductoModel.fromJson(data);
-    return [
-      ProductImages(product: product),
-      ProductDescription(
-        product: product,
-        pressOnSeeMore: () {},
-      ),
-      TopRoundedContainer(
-        color: Color(0xFFF6F7F9),
-        child: Column(
-          children: [
-            TopRoundedContainer(
+            )),
+            bottomSheet: TopRoundedContainer(
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.only(
@@ -70,7 +55,23 @@ class DetalleProductoPage extends StatelessWidget {
                   press: () {},
                 ),
               ),
-            ),
+            ),);
+  }
+
+  List<Widget> _getDetalleProducto(
+      BuildContext context, Map<String, dynamic> data) {
+    final ProductoModel product = ProductoModel.fromJson(data);
+    return [
+      ProductImages(product: product),
+      ProductDescription(
+        product: product,
+        pressOnSeeMore: () {},
+      ),
+      TopRoundedContainer(
+        // color: Color(0xFFF6F7F9),
+        child: Column(
+          children: [
+            
           ],
         ),
       ),

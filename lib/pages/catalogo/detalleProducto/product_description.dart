@@ -2,7 +2,6 @@ import 'package:botybuy/models/Producto.dart';
 import 'package:botybuy/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-
 class ProductDescription extends StatelessWidget {
   const ProductDescription({
     Key key,
@@ -53,7 +52,7 @@ class ProductDescription extends StatelessWidget {
             right: getProportionateScreenWidth(64),
           ),
           child: Text(
-            (product.descripcion)!=null?product.descripcion:'',
+            (product.descripcion) != null ? product.descripcion : '',
             maxLines: 3,
           ),
         ),
@@ -64,24 +63,68 @@ class ProductDescription extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {},
-            child: Row(
+            child: Column(
               children: [
-                Text(
-                  "Ver mas Detalle",
+                Container(
+                  child: Row(children: [Text(
+                  'Precio: ${this.product.precio} Bs.',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Theme.of(context).primaryColor),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).primaryColor),
+                ),],),
                 ),
-                SizedBox(width: 5),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: Theme.of(context).primaryColor,
+               
+                // Icon(
+                //   Icons.arrow_forward_ios,
+                //   size: 12,
+                //   color: Theme.of(context).primaryColor,
+                // ),
+                
+                Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        'En Stock: ${this.product.cantidad}',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        )
+        ),
+        getCategorySection(context)
       ],
     );
+  }
+
+  Padding getCategorySection(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: 10,
+        ),
+        child: Column(
+          children: [
+            Text(
+              'Categorias:',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).primaryColor),
+            ),
+            Row(
+              children: List.generate(product.categoria.length, (index) {
+                return Chip(label: Text(product.categoria[index].nombre));
+              }),
+            )
+          ],
+        ),
+      );
   }
 }
