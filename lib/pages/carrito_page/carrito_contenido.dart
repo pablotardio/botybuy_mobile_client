@@ -6,7 +6,7 @@ import 'package:botybuy/pages/carrito_page/carrito_card.dart';
 import 'package:botybuy/providers/carrito_provider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../size_config.dart';
+import '../../utils/size_config.dart';
 
 class CarritoContenido extends StatelessWidget {
   final Function(double) asignarCuenta;

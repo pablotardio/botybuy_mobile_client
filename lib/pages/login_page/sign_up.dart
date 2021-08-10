@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:botybuy/theme.dart';
+import 'package:botybuy/utils/theme.dart';
 import 'package:botybuy/widgets/snackbar.dart';
 
 class SignUp extends StatefulWidget {

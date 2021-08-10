@@ -3,7 +3,7 @@ import 'package:botybuy/models/CarritoModel.dart';
 import 'package:flutter/material.dart';
 
 //import '../../../constants.dart';
-import '../../../size_config.dart';
+import '../../utils/size_config.dart';
 
 class CarritoCard extends StatelessWidget {
   const CarritoCard({
