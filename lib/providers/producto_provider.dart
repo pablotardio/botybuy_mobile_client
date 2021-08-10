@@ -13,7 +13,6 @@ class ProductoProvider {
 
   Future<List<dynamic>> listarProductos() async {
     try {
-      
       final headers = getHeaders();
 
       final response = await http.get(
@@ -22,11 +21,28 @@ class ProductoProvider {
       );
 
       List<dynamic> decodedResp = await json.decode(response.body);
-       print(decodedResp);
+      print(decodedResp);
       return decodedResp;
     } catch (e) {
       print(e);
     }
   }
-  
+
+  Future<Map<String, dynamic>> getDetalle(int id) async {
+        try {
+      
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/producto/ver/'+id.toString()),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

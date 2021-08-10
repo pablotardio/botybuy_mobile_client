@@ -8,12 +8,13 @@ class ProductCard extends StatelessWidget {
     Key key,
     this.width = 140,
     this.aspectRetio = 1.02,
+    this.onTap,
     @required this.product,
   }) : super(key: key);
 
   final double width, aspectRetio;
   final ProductoModel product;
-
+  final Function onTap;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -21,7 +22,7 @@ class ProductCard extends StatelessWidget {
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
-          onTap: () {},
+          onTap: onTap,
           // => 
           // Navigator.pushNamed(
           //   context,
@@ -55,7 +56,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "\$${product.precio}",
+                    "\Bs. ${product.precio}",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(18),
                       fontWeight: FontWeight.w600,
