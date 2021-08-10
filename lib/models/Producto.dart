@@ -1,103 +1,97 @@
-import 'package:flutter/material.dart';
+class ProductoModel {
+  int id;
+  String nombre;
+  String descripcion;
+  int precio;
+  int cantidad;
+  int tiendaId;
+  List<ImagenProductos> imagenProductos;
+  List<Categoria> categoria;
 
-class Producto {
-  final int id;
-  final String title, description;
-  final List<String> images;
-  final List<Color> colors;
-  final double rating, price;
-  final bool isFavourite, isPopular;
+  ProductoModel(
+      {this.id,
+      this.nombre,
+      this.descripcion,
+      this.precio,
+      this.cantidad,
+      this.tiendaId,
+      this.imagenProductos,
+      this.categoria});
 
-  Producto({
-    @required this.id,
-    @required this.images,
-    @required this.colors,
-    this.rating = 0.0,
-    this.isFavourite = false,
-    this.isPopular = false,
-    @required this.title,
-    @required this.price,
-    @required this.description,
-  });
+  ProductoModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nombre = json['nombre'];
+    descripcion = json['descripcion'];
+    precio = json['precio'];
+    cantidad = json['cantidad'];
+    tiendaId = json['tiendaId'];
+    if (json['imagenProductos'] != null) {
+      imagenProductos = new List<ImagenProductos>();
+      json['imagenProductos'].forEach((v) {
+        imagenProductos.add(new ImagenProductos.fromJson(v));
+      });
+    }
+    if (json['categoria'] != null) {
+      categoria = new List<Categoria>();
+      json['categoria'].forEach((v) {
+        categoria.add(new Categoria.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['nombre'] = this.nombre;
+    data['descripcion'] = this.descripcion;
+    data['precio'] = this.precio;
+    data['cantidad'] = this.cantidad;
+    data['tiendaId'] = this.tiendaId;
+    if (this.imagenProductos != null) {
+      data['imagenProductos'] =
+          this.imagenProductos.map((v) => v.toJson()).toList();
+    }
+    if (this.categoria != null) {
+      data['categoria'] = this.categoria.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-// Our demo Products
+class ImagenProductos {
+  String url;
 
-List<Producto> demoProducts = [
-  Producto(
-    id: 1,
-    images: [
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Wireless Controller for PS4™",
-    price: 64.99,
-    description: description,
-    rating: 4.8,
-    isFavourite: true,
-    isPopular: true,
-  ),
-  Producto(
-    id: 2,
-    images: [
-      "assets/images/Image Popular Product 2.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Nike Sport White - Man Pant",
-    price: 50.5,
-    description: description,
-    rating: 4.1,
-    isPopular: true,
-  ),
-  Producto(
-    id: 3,
-    images: [
-      "assets/images/glap.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Gloves XC Omega - Polygon",
-    price: 36.55,
-    description: description,
-    rating: 4.1,
-    isFavourite: true,
-    isPopular: true,
-  ),
-  Producto(
-    id: 4,
-    images: [
-      "assets/images/wireless headset.png",
-    ],
-    colors: [
-      Color(0xFFF6625E),
-      Color(0xFF836DB8),
-      Color(0xFFDECB9C),
-      Colors.white,
-    ],
-    title: "Logitech Head",
-    price: 20.20,
-    description: description,
-    rating: 4.1,
-    isFavourite: true,
-  ),
-];
+  ImagenProductos({this.url});
 
-const String description =
-    "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";
+  ImagenProductos.fromJson(Map<String, dynamic> json) {
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['url'] = this.url;
+    return data;
+  }
+}
+
+class Categoria {
+  int id;
+  String nombre;
+  String descripcion;
+
+  Categoria({this.id, this.nombre, this.descripcion});
+
+  Categoria.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nombre = json['nombre'];
+    descripcion = json['descripcion'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['nombre'] = this.nombre;
+    data['descripcion'] = this.descripcion;
+    return data;
+  }
+}
