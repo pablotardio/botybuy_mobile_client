@@ -14,6 +14,8 @@ class ProductosCatalogo extends StatelessWidget {
           initialData: [],
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return Column(
+             
+             
               //snapshot.data es lo que me devuelve mi promise/future
               children: _listarProductos(context, snapshot.data),
             );
@@ -23,13 +25,30 @@ class ProductosCatalogo extends StatelessWidget {
 }
 
 List<Widget> _listarProductos(BuildContext context, List<dynamic> data) {
- return List.generate(
-                data.length,
-                (index) {
-                    final parsedProducto=ProductoModel.fromJson(data[index]);
-                    return ProductCard(product: parsedProducto);
-                },
-              );
+ List<Widget>listaDeProductos=[];
+ List<Widget> currentRowList=[];
+  int index=1;
+  data.forEach((element) {
+     final parsedProducto=ProductoModel.fromJson(element);
+       currentRowList.add(ProductCard(product: parsedProducto));
+       if(index%2==0){
+        // print(index);
+         listaDeProductos.add(Row(children: currentRowList,mainAxisAlignment:MainAxisAlignment.center));
+         currentRowList=[];
+       }  
+  
+      // listaDeProductos.add(ProductCard(product: parsedProducto));
+
+    index++;
+  });
+  // List.generate(
+  //               data.length,
+  //               (index) {
+  //                   final parsedProducto=ProductoModel.fromJson(data[index]);
+  //                   return ProductCard(product: parsedProducto);
+  //               },
+  //             );
+ return listaDeProductos;
               // SizedBox(width: getProportionateScreenWidth(20)),
 }
 // Container(
