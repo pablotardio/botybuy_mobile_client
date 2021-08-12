@@ -32,28 +32,30 @@ class CarritoCard extends StatelessWidget {
           ),
         ),
         SizedBox(width: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              cart.nombre,
-              style: TextStyle(color: Colors.black, fontSize: 16),
-              maxLines: 2,
-            ),
-            SizedBox(height: 10),
-            Text.rich(
-              TextSpan(
-                text: "\Bs.${cart.detalleOrden.precioUnitario}",
-                style: TextStyle(
-                    fontWeight: FontWeight.w600, color:  Theme.of(context).primaryColor),
-                children: [
-                  TextSpan(
-                      text: " x${cart.detalleOrden.cantidad}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                ],
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                cart.nombre,
+                style: TextStyle(color: Colors.black, fontSize: 16),
+                maxLines: 2,overflow: TextOverflow.ellipsis,
               ),
-            )
-          ],
+              SizedBox(height: 10),
+              Text.rich(
+                TextSpan(
+                  text: "\Bs.${cart.detalleOrden.precioUnitario}",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600, color:  Theme.of(context).primaryColor),
+                  children: [
+                    TextSpan(
+                        text: " x${cart.detalleOrden.cantidad}",
+                        style: Theme.of(context).textTheme.bodyText1),
+                  ],
+                ),
+              )
+            ],
+          ),
         )
       ],
     );

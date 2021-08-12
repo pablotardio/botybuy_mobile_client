@@ -43,7 +43,7 @@ final _productoProvider = new ProductoProvider();
             padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20)),
             child: FutureBuilder(
-              future: _productoProvider.getDetalle(widget.productId),
+              future: _productoProvider.getDetalleCliente(widget.productId),
               initialData: defaultProduct,
 
               builder: (BuildContext context, AsyncSnapshot snapshot) {

@@ -28,13 +28,13 @@ class ProductoProvider {
     }
   }
 
-  Future<Map<String, dynamic>> getDetalle(int id) async {
+  Future<Map<String, dynamic>> getDetalleCliente(int id) async {
         try {
       
       final headers = getHeaders();
 
       final response = await http.get(
-        new Uri.http(_host, '/api/producto/ver/'+id.toString()),
+        new Uri.http(_host, '/api/producto/cliente/ver/'+id.toString()),
         headers: headers,
       );
 
