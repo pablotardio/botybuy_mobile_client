@@ -237,7 +237,8 @@ class _SignInState extends State<SignIn> {
   handleSubmit() async{
     final responseUsuario = await  _usuarioProvider.login(
     loginEmailController.text, loginPasswordController.text);
-    if (prefs.token != '') {
+    print(responseUsuario);
+    if (responseUsuario['ok'] ) {
       Navigator.pushNamed(context,'home');
     }
     return CustomSnackBar(context, const Text('Login button pressed'));
