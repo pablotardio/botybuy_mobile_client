@@ -151,7 +151,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
-                  splashColor: CustomTheme.loginGradientEnd1,
+                  // splashColor: CustomTheme.loginGradientEnd1,
                   child: const Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 42.0),
