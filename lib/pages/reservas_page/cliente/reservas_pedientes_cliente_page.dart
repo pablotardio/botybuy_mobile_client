@@ -60,7 +60,7 @@ class _ReservasPendienteClientePageState
       context,
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
-          hasOptions: false,
+           hasOptions:  ordenActual['estado']=='PENDIENTE'?true:false,
           ordenId: ordenActual['id'],
           options: getOptions(ordenActual['id'], ordenActual['estado']),
         ),
@@ -69,7 +69,25 @@ class _ReservasPendienteClientePageState
   }
 
   Widget getOptions(int id, String estado) {
-    final botones = { }; //El cliente no tiene botones, solo ve
+    final botones = { "PENDIENTE": Row(
+        children: [
+          ButtonOption(
+            titulo: 'Cancelar mi Pedido',
+            onPressed: () async {
+              await _ordenProvider.changeEstado(id, 'CANCELADO');
+               updateViewAndNavigateBack();
+              CustomSnackBar(context, const Text('Se ha Camceñadp la orden'));
+            },
+          ),
+        ],
+      )}; //El cliente no tiene botones, solo ve
     return botones[estado];
+  }
+      void updateViewAndNavigateBack() {
+    setState(() {
+      //Haciendo fetch de nuevo
+    });
+    //volviendo atras
+    Navigator.pop(context);
   }
 }

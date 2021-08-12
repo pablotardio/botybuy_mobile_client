@@ -60,7 +60,7 @@ class _ReservasRecibidasClientePageState
       context,
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
-          hasOptions: false,
+          // hasOptions: false,
           ordenId: ordenActual['id'],
           options: getOptions(ordenActual['id'], ordenActual['estado']),
         ),
@@ -69,7 +69,8 @@ class _ReservasRecibidasClientePageState
   }
 
   Widget getOptions(int id, String estado) {
-    final botones = { }; //El cliente no tiene botones, solo ve
+    final botones = {}; //El cliente no tiene botones, solo ve
     return botones[estado];
   }
+
 }

@@ -78,15 +78,7 @@ class _ReservasPendienteVendedorPageState
                updateViewAndNavigateBack();
               CustomSnackBar(context, const Text('Se ha aceptadp la orden'));
             },
-          ),
-          ButtonOption(
-            titulo: 'Cancelar',
-            onPressed: () async {
-              await _ordenProvider.changeEstado(id, 'CANCELADO');
-               updateViewAndNavigateBack();
-              CustomSnackBar(context, const Text('Se ha Camceñadp la orden'));
-            },
-          ),
+          )
         ],
       ),
       "ACEPTADO": ButtonOption(
