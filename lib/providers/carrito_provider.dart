@@ -61,4 +61,22 @@ class CarritoProvider {
       print(e);
     }
   }
+   Future<List<dynamic>> removeFromCarrito(int productoId, int ordenId) async {
+    try {
+      
+      final headers = getHeaders();
+      final body={"productoId": productoId,"ordenId":ordenId};
+      final response = await http.post(
+        new Uri.http(_host, '/api/carrito/cliente/remove/producto'),
+        headers: headers,
+        body: json.encode(body)
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }
