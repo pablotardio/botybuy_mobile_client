@@ -13,14 +13,11 @@ class CarritoProvider {
 
   Future<List<dynamic>> getAllCarritos() async {
     try {
-      
       final headers = getHeaders();
-
       final response = await http.get(
         new Uri.http(_host, '/api/carrito/ver'),
         headers: headers,
       );
-
       Map<String,dynamic> decodedResp = await json.decode(response.body);
       // print(decodedResp);
       return decodedResp['data']['productos'];
@@ -46,5 +43,22 @@ class CarritoProvider {
       print(e);
     }
   }
-  
+    Future<List<dynamic>> addToCarrito(int productoId, int cantidad) async {
+    try {
+      
+      final headers = getHeaders();
+      final body={"productoId": productoId,"cantidad":cantidad};
+      final response = await http.post(
+        new Uri.http(_host, '/api/carrito/cliente/add/producto'),
+        headers: headers,
+        body: json.encode(body)
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }

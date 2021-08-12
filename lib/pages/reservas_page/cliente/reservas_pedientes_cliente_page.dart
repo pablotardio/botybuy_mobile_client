@@ -76,7 +76,7 @@ class _ReservasPendienteClientePageState
             onPressed: () async {
               await _ordenProvider.changeEstado(id, 'CANCELADO');
                updateViewAndNavigateBack();
-              CustomSnackBar(context, const Text('Se ha Camceñadp la orden'));
+              CustomSnackBar(context, const Text('Se ha Cancelado la orden'));
             },
           ),
         ],

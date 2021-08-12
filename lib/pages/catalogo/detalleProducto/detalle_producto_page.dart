@@ -2,17 +2,29 @@ import 'package:botybuy/models/Producto.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/product_description.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/product_images.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/top_rounded_container.dart';
+import 'package:botybuy/providers/carrito_provider.dart';
 import 'package:botybuy/providers/producto_provider.dart';
 import 'package:botybuy/utils/size_config.dart';
 import 'package:botybuy/widgets/default_button.dart';
+import 'package:botybuy/widgets/rounded_icon_btn.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
-class DetalleProductoPage extends StatelessWidget {
-  const DetalleProductoPage({Key key, this.productId}) : super(key: key);
+class DetalleProductoPage extends StatefulWidget {
+const DetalleProductoPage({Key key, this.productId}) : super(key: key);
   final int productId;
   @override
+  _DetalleProductoPageState createState() => _DetalleProductoPageState();
+}
+
+class _DetalleProductoPageState extends State<DetalleProductoPage> {
+@override
+int cantidad=0;
+final _productoProvider = new ProductoProvider();
+    final _carritoProvider= new CarritoProvider();
   Widget build(BuildContext context) {
-    final _productoProvider = new ProductoProvider();
+    
+    
     var defaultProduct = ProductoModel(
                   cantidad: 0,
                   precio: 0,
@@ -31,7 +43,7 @@ class DetalleProductoPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20)),
             child: FutureBuilder(
-              future: _productoProvider.getDetalle(this.productId),
+              future: _productoProvider.getDetalle(widget.productId),
               initialData: defaultProduct,
 
               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -41,21 +53,7 @@ class DetalleProductoPage extends StatelessWidget {
                 );
               },
             )),
-            bottomSheet: TopRoundedContainer(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: SizeConfig.screenWidth * 0.15,
-                  right: SizeConfig.screenWidth * 0.15,
-                  bottom: getProportionateScreenWidth(40),
-                  top: getProportionateScreenWidth(15),
-                ),
-                child: DefaultButton(
-                  text: "Añadir al carrito",
-                  press: () {},
-                ),
-              ),
-            ),);
+            );
   }
 
   List<Widget> _getDetalleProducto(
@@ -68,10 +66,50 @@ class DetalleProductoPage extends StatelessWidget {
         pressOnSeeMore: () {},
       ),
       TopRoundedContainer(
-        // color: Color(0xFFF6F7F9),
+        color: Color(0xFFF6F7F9),
         child: Column(
           children: [
-            
+           
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [RoundedIconBtn(
+            icon: Icons.remove,
+            press: () {setState(() {
+              if (cantidad>0) {
+                this.cantidad--;
+              }
+            });},
+          ),
+           SizedBox(width: getProportionateScreenWidth(20)),
+          Text('${this.cantidad}'),
+          SizedBox(width: getProportionateScreenWidth(20)),
+          RoundedIconBtn(
+            icon: Icons.add,
+            showShadow: true,
+            press: () {
+              setState(() {
+              this.cantidad++;
+            });
+            },
+          ),],),
+          TopRoundedContainer(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: SizeConfig.screenWidth * 0.15,
+                  right: SizeConfig.screenWidth * 0.15,
+                  bottom: getProportionateScreenWidth(40),
+                  top: getProportionateScreenWidth(15),
+                ),
+                child: DefaultButton(
+                  text: "Añadir al carrito",
+                  press: () async{
+                    await _carritoProvider.addToCarrito(widget.productId,this.cantidad);
+                      CustomSnackBar(context, const Text('Se ha Añadido el producto al carrito'));
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),
