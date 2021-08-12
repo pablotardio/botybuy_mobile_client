@@ -32,17 +32,22 @@ class CarritoContenido extends StatelessWidget {
 
   List<Widget> _listarItemsCarrito(BuildContext context, List<dynamic> data) {
     //print(data);
+    final _carritoProvider = new CarritoProvider();
     List<Widget> itemsCarrito = [];
-    double cuenta=0;
+    double cuenta = 0;
     data?.forEach((carritoActual) {
-     ProductoCarrito parsedProducto=ProductoCarrito.fromJson(carritoActual);
-      cuenta+=parsedProducto.detalleOrden.precioUnitario*parsedProducto.detalleOrden.cantidad;
+      ProductoCarrito parsedProducto = ProductoCarrito.fromJson(carritoActual);
+      cuenta += parsedProducto.detalleOrden.precioUnitario *
+          parsedProducto.detalleOrden.cantidad;
       itemsCarrito.add(Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Dismissible(
           key: Key(parsedProducto.id.toString()),
           direction: DismissDirection.endToStart,
           onDismissed: (direction) {
+            _carritoProvider.removeFromCarrito(
+                parsedProducto.detalleOrden.productoId,
+                parsedProducto.detalleOrden.ordenId);
             // setState(() {
             //   // demoCarts.removeAt(carritoActual.id);
             // });
@@ -60,7 +65,7 @@ class CarritoContenido extends StatelessWidget {
               ],
             ),
           ),
-          child: CarritoCard(cart:parsedProducto  ),
+          child: CarritoCard(cart: parsedProducto),
         ),
       ));
     });
