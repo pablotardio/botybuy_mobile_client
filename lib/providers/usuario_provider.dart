@@ -36,12 +36,12 @@ class UsuarioProvider {
         final vistas = {'vistas': decodedResp['vistas']};
         prefs.vistas = json.encode(vistas);
         return {
-          'ok': true,
+          'status': "OK",
           'token': decodedResp['token'],
           'vistas': decodedResp['vistas']
         };
       } else {
-        return {'ok': false};
+        return decodedResp;
       }
     } catch (e) {
       print(e);

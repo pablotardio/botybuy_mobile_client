@@ -18,7 +18,7 @@ class _SignInState extends State<SignIn> {
   UsuarioProvider _usuarioProvider = new UsuarioProvider();
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-  final prefs= new PreferenciasUsuario();
+  final prefs = new PreferenciasUsuario();
   bool _obscureTextPassword = true;
 
   @override
@@ -30,7 +30,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -234,14 +233,16 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  handleSubmit() async{
-    final responseUsuario = await  _usuarioProvider.login(
-    loginEmailController.text, loginPasswordController.text);
+  handleSubmit() async {
+    final responseUsuario = await _usuarioProvider.login(
+        loginEmailController.text, loginPasswordController.text);
     print(responseUsuario);
-    if (responseUsuario['ok'] ) {
-      Navigator.pushNamed(context,'home');
+    if (responseUsuario['status']=='OK') {
+      Navigator.pushNamed(context, 'home');
+      return CustomSnackBar(context, const Text('Bienvenido a Botybuy'));
+    } else {
+      return CustomSnackBar(context,  Text(responseUsuario['data']['msg']),backgroundColor:Colors.red);
     }
-    return CustomSnackBar(context, const Text('Login button pressed'));
   }
 
   void _toggleSignInButton() {
