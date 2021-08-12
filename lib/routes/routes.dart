@@ -3,6 +3,7 @@ import 'package:botybuy/pages/carrito_page/carrito_page.dart';
 import 'package:botybuy/pages/catalogo/catalogo_page.dart';
 import 'package:botybuy/pages/home_page/home_page.dart';
 import 'package:botybuy/pages/login_page/login_page.dart';
+import 'package:botybuy/pages/recomendaciones/obtener_recomendaciones_page.dart';
 import 'package:botybuy/pages/reservas_page/cajero/reservas_pedientes_cajero_page.dart';
 import 'package:botybuy/pages/reservas_page/cliente/reservas_pedientes_cliente_page.dart';
 import 'package:botybuy/pages/reservas_page/cliente/reservas_recibidas_cliente_page.dart';
@@ -21,6 +22,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/cliente/reservas': (BuildContext context) => ReservasPendienteClientePage(),
     '/cliente/compras': (BuildContext context) => ReservasRecibidasClientePage(),
     '/cliente/productos': (BuildContext context) => CatalogoPage(),
+    '/cliente/recomendaciones': (BuildContext context) => ObtenerRecomendacionesPage(),
     '/ventas/reservas/pendientes': (BuildContext context) => ReservasPendienteVendedorPage(),
     '/ventas/entregas': (BuildContext context) => EntregasVendedorPage(),
     '/cajero/reservas': (BuildContext context) => ReservasPendienteCajeroPage(),

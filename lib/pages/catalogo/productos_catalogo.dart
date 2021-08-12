@@ -6,14 +6,15 @@ import 'package:botybuy/widgets/productCard.dart';
 import 'package:flutter/material.dart';
 
 class ProductosCatalogo extends StatelessWidget {
-  const ProductosCatalogo({Key key}) : super(key: key);
+  final Future<List<dynamic>> listarProductosFuture;
+  const ProductosCatalogo({Key key,this.listarProductosFuture}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _productoProvider = new ProductoProvider();
+   
     return SafeArea(
         child: FutureBuilder(
-      future: _productoProvider.listarProductos(),
+      future:this.listarProductosFuture,
       initialData: [],
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return Column(
@@ -29,7 +30,9 @@ class ProductosCatalogo extends StatelessWidget {
     List<Widget> currentRowList = [];
     int index = 1;
     data.forEach((element) {
+     
       final parsedProducto = ProductoModel.fromJson(element);
+       print(parsedProducto);
       currentRowList.add(ProductCard(
         product: parsedProducto,
         onTap: () {
