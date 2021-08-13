@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 //import 'package:firebase_core/firebase_core.dart';
@@ -65,6 +66,7 @@ class _BotPageState extends State<BotPage> {
     AIResponse response = await dialogflow.detectIntent(input, payload);
     print(response.getMessage());
     final String textResponse = response.getMessage();
+
     //si la respuesta es un solo mensaje
     if (textResponse != null) {
       messages.add(ChatMessage(
@@ -74,11 +76,21 @@ class _BotPageState extends State<BotPage> {
       //si la respuesta son varios mensajes
       final List<dynamic> listResponse = response.getListMessage();
       for (var message in listResponse) {
-        Map<String, dynamic> messageSubText = message['text'];
-        messages.add(ChatMessage(
-            text: messageSubText['text'][0],
-            user: ChatUser(name: 'Bot', uid: '25649654')));
-        _chatCambiadoStreamController.sink.add(messages);
+        //Verifico si es payload o mensaje
+
+        if (message['text'] != null) {
+          Map<String, dynamic> messageSubText = message['text'];
+          messages.add(ChatMessage(
+              text: messageSubText['text'][0],
+              user: ChatUser(name: 'Bot', uid: '25649654')));
+          _chatCambiadoStreamController.sink.add(messages);
+        } else {
+          //to print custom payload from dialogflow
+          //print('payload:'+ json.encode(message['payload']));
+          final String payloadType= message['payload']['type'];
+          final  Map<String, dynamic> payloadData= message['payload']['data'];
+          handleCustomPayload(payloadType,payloadData);
+        }
       }
     }
   }
@@ -277,5 +289,18 @@ class _BotPageState extends State<BotPage> {
         text: 'Hola, bienvenido a botybuy! ',
         user: ChatUser(name: 'Bot', uid: '25649654')));
     _chatCambiadoStreamController.sink.add(initialList);
+  }
+  /**
+   * This functions is invoked when a custom payload provided in dialogflow
+   * made by pablo
+   */
+  void handleCustomPayload(String payloadType, Map<String, dynamic> payloadData) {
+    print(jsonEncode(payloadData));
+    final typesAction={
+      'NAVIGATE':(){
+        Navigator.pushNamed(context, payloadData['url']);
+      }
+    };
+    typesAction[payloadType]();
   }
 }
