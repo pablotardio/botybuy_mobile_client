@@ -79,6 +79,7 @@ class _BotPageState extends State<BotPage> {
         //Verifico si es payload o mensaje
 
         if (message['text'] != null) {
+          //in case the actual object is a message
           Map<String, dynamic> messageSubText = message['text'];
           messages.add(ChatMessage(
               text: messageSubText['text'][0],
