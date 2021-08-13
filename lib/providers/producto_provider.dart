@@ -45,4 +45,21 @@ class ProductoProvider {
       print(e);
     }
   }
+
+    Future<List<dynamic>> listarProductosPorCategoria(int categoriaId) async {
+    try {
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/producto/listar/categoria/$categoriaId'),
+        headers: headers,
+      );
+
+      List<dynamic> decodedResp = await json.decode(response.body);
+      print(decodedResp);
+      return decodedResp;
+    } catch (e) {
+      print(e);
+    }
+  }
 }
