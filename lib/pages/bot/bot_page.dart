@@ -6,6 +6,7 @@ import 'dart:io';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:botybuy/providers/custom_dialogflow_provider.dart';
+import 'package:botybuy/routes/routes.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:botybuy/utils/launchUrl.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,7 @@ class _BotPageState extends State<BotPage> {
               user: ChatUser(name: 'Bot', uid: '25649654')));
           _chatCambiadoStreamController.sink.add(messages);
         } else {
+          //Si llega aqui la respuesta es un payload
           //to print custom payload from dialogflow
           //print('payload:'+ json.encode(message['payload']));
           final String payloadType= message['payload']['type'];
@@ -300,6 +302,9 @@ class _BotPageState extends State<BotPage> {
     final typesAction={
       'NAVIGATE':(){
         Navigator.pushNamed(context, payloadData['url']);
+      },
+      'NAVIGATE_PARAMS':(){
+         navigateWithParams(context:context,url:payloadData['url'],params: payloadData['params']);
       }
     };
     typesAction[payloadType]();
