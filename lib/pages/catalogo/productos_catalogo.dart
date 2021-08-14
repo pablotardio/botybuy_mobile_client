@@ -1,6 +1,7 @@
 import 'package:botybuy/models/Producto.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/detalle_producto_page.dart';
 import 'package:botybuy/providers/producto_provider.dart';
+import 'package:botybuy/routes/routes.dart';
 import 'package:botybuy/utils/size_config.dart';
 import 'package:botybuy/widgets/productCard.dart';
 import 'package:flutter/material.dart';
@@ -58,14 +59,7 @@ class ProductosCatalogo extends StatelessWidget {
   }
 
   void navigateToDetail(BuildContext context, ProductoModel producto) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DetalleProductoPage(
-          productId: producto.id,
-         
-        ),
-      ),
-    );
+    navigateWithParams(url:'/cliente/productos/especifico',params: { 'productId': producto.id,});
+    
   }
 }
