@@ -59,7 +59,7 @@ class ProductosCatalogo extends StatelessWidget {
   }
 
   void navigateToDetail(BuildContext context, ProductoModel producto) {
-    navigateWithParams(url:'/cliente/productos/especifico',params: { 'productId': producto.id,});
+    navigateWithParams(context:context,url:'/cliente/productos/especifico',params: { 'productId': producto.id,});
     
   }
 }
