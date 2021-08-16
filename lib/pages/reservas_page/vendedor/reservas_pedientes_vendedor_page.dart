@@ -76,7 +76,7 @@ class _ReservasPendienteVendedorPageState
             onPressed: () async {
               await _ordenProvider.changeEstado(id, 'ACEPTADO');
                updateViewAndNavigateBack();
-              CustomSnackBar(context, const Text('Se ha aceptadp la orden'));
+              CustomSnackBar(context, const Text('Se ha aceptado la orden'));
             },
           )
         ],
