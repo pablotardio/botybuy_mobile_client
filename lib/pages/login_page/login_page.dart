@@ -1,3 +1,4 @@
+import 'package:botybuy/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:botybuy/pages/login_page/sign_in.dart';
 import 'package:botybuy/pages/login_page/sign_up.dart';
@@ -32,6 +33,7 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         body: SingleChildScrollView(
       physics: const ClampingScrollPhysics(),
@@ -126,7 +128,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 onPressed: _onSignInButtonPress,
                 child: Text(
-                  'Salir',
+                  'Ingresar',
                   style: TextStyle(
                       color: left,
                       fontSize: 16.0,

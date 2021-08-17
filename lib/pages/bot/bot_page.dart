@@ -4,6 +4,8 @@ import 'dart:io';
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
+import 'package:botybuy/providers/custom_dialogflow_provider.dart';
+import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
@@ -19,6 +21,7 @@ class BotPage extends StatefulWidget {
 }
 
 class _BotPageState extends State<BotPage> {
+  final prefs= new PreferenciasUsuario();
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   final _chatCambiadoStreamController =
       StreamController<List<ChatMessage>>.broadcast();
@@ -37,29 +40,47 @@ class _BotPageState extends State<BotPage> {
   var m = <ChatMessage>[];
 
   var i = 0;
-  Dialogflow dialogflow;
+  CustomDialogFlowProvider dialogflow;
   AuthGoogle authGoogle;
   @override
   void initState() {
     super.initState();
     initializeDialogflow();
   }
-
+ 
   /// Auth and initialize the dialogflow services
   void initializeDialogflow() async {
     AuthGoogle authGoogle = await AuthGoogle(
             fileJson: "assets/credentials/botybuy-bot-srrn-bd58f9935dfc.json")
         .build();
-    dialogflow = Dialogflow(authGoogle: authGoogle, language: Language.spanish);
+    dialogflow = CustomDialogFlowProvider(authGoogle: authGoogle, language: Language.spanish);
   }
 
   fetchFromDialogFlow(String input) async {
-    AIResponse response = await dialogflow.detectIntent(input);
+    final payload="{'userToken':'${prefs.token}'}";
+    print('${prefs.token}');
+
+    AIResponse response = await dialogflow.detectIntent(input,payload);
     print(response.getMessage());
     final String textResponse = response.getMessage();
-    messages.add(ChatMessage(
-        text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
-    _chatCambiadoStreamController.sink.add(messages);
+    //si la respuesta es un solo mensaje
+    if (textResponse != null) {
+      messages.add(ChatMessage(
+          text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
+      _chatCambiadoStreamController.sink.add(messages);
+      
+    } else {
+      //si la respuesta son varios mensajes
+      final List<dynamic> listResponse = response.getListMessage();
+       for (var message in listResponse) {
+         Map<String,dynamic> messageSubText= message['text'];
+      messages.add(ChatMessage(
+      text:messageSubText['text'][0], user: ChatUser(name: 'Bot', uid: '25649654')));
+     _chatCambiadoStreamController.sink.add(messages);
+    }
+    }
+
+   
   }
 
   void systemMessage() {

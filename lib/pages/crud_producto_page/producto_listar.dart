@@ -166,6 +166,7 @@ class _ProductsPageState extends State<ProductsPage> {
               item['categoria'],
               item['foto'],
               item['cantidad'],
+              //item['tiendaId'],
             );
             _products.add(product);
             _products_2.add(product);

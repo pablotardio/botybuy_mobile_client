@@ -26,12 +26,12 @@ class UsuarioProvider {
         body: json.encode(authdata),
       );
 
-      Map<String, dynamic> decodedResp = json.decode(response.body);
+      Map<String, dynamic> decodedResp = await json.decode(response.body);
       // print(decodedResp);
 
       prefs.token = decodedResp['token'];
       final vistas = {'vistas': decodedResp['vistas']};
-      prefs.vistas = json.encode(vistas);
+      prefs.vistas =  json.encode(vistas);
       //prefs.vistas = jsonEncode(decodedResp['vistas']);
      // print('Saved: '+prefs.vistas+ prefs.token);
       if (decodedResp.containsKey('token')) {

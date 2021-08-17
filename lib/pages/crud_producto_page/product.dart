@@ -8,6 +8,7 @@ class Product extends StatelessWidget {
   var categoria;
   var foto;
   var cantidad;
+  //var tiendaId;
 
   // void showDetail() {
   //   Navigator.of(_context)
@@ -21,6 +22,8 @@ class Product extends StatelessWidget {
     return this.nombre;
   }
 
+  // Product(this.id, this.nombre, this.descripcion, this.precio, this.categoria,
+  //     this.foto, this.cantidad);
   Product(this.id, this.nombre, this.descripcion, this.precio, this.categoria,
       this.foto, this.cantidad);
 
