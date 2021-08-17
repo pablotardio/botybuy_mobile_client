@@ -1,3 +1,5 @@
+import 'package:botybuy/providers/usuario_provider.dart';
+import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:botybuy/utils/theme.dart';
@@ -14,17 +16,21 @@ class _SignUpState extends State<SignUp> {
   final FocusNode focusNodePassword = FocusNode();
   final FocusNode focusNodeConfirmPassword = FocusNode();
   final FocusNode focusNodeEmail = FocusNode();
+  final FocusNode focusNodePhone = FocusNode();
+  final FocusNode focusNodeBirthDate = FocusNode();
   final FocusNode focusNodeName = FocusNode();
-
+  DateTime _selectedDate;
   bool _obscureTextPassword = true;
   bool _obscureTextConfirmPassword = true;
 
   TextEditingController signupEmailController = TextEditingController();
+  TextEditingController signupPhoneController = TextEditingController();
+  TextEditingController signupBirthDate = TextEditingController();
   TextEditingController signupNameController = TextEditingController();
   TextEditingController signupPasswordController = TextEditingController();
   TextEditingController signupConfirmPasswordController =
       TextEditingController();
-
+  final _usuarioProvider = new UsuarioProvider();
   @override
   void dispose() {
     focusNodePassword.dispose();
@@ -76,7 +82,8 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Nombre',
                               hintStyle: TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                             ),
                             onSubmitted: (_) {
                               focusNodeEmail.requestFocus();
@@ -92,9 +99,9 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(
                               top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                           child: TextField(
-                            focusNode: focusNodeEmail,
-                            controller: signupEmailController,
-                            keyboardType: TextInputType.emailAddress,
+                            focusNode: focusNodeBirthDate,
+                            controller: signupBirthDate,
+                            keyboardType: TextInputType.datetime,
                             autocorrect: false,
                             style: const TextStyle(
                                 fontFamily: 'WorkSansSemiBold',
@@ -108,13 +115,18 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Fecha De Nacimiento',
                               hintStyle: TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                             ),
                             onSubmitted: (_) {
-                              focusNodePassword.requestFocus();
+                              focusNodeBirthDate.requestFocus();
+                            },
+                            onTap: () {
+                              _selectDate(context);
                             },
                           ),
-                        ),Container(
+                        ),
+                        Container(
                           width: 250.0,
                           height: 1.0,
                           color: Colors.grey[400],
@@ -123,9 +135,9 @@ class _SignUpState extends State<SignUp> {
                           padding: const EdgeInsets.only(
                               top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                           child: TextField(
-                            focusNode: focusNodeEmail,
-                            controller: signupEmailController,
-                            keyboardType: TextInputType.emailAddress,
+                            focusNode: focusNodePhone,
+                            controller: signupPhoneController,
+                            keyboardType: TextInputType.phone,
                             autocorrect: false,
                             style: const TextStyle(
                                 fontFamily: 'WorkSansSemiBold',
@@ -139,10 +151,11 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Celular',
                               hintStyle: TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                             ),
                             onSubmitted: (_) {
-                              focusNodePassword.requestFocus();
+                              focusNodePhone.requestFocus();
                             },
                           ),
                         ),
@@ -171,14 +184,14 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Correo electronico',
                               hintStyle: TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                             ),
                             onSubmitted: (_) {
                               focusNodePassword.requestFocus();
                             },
                           ),
                         ),
-                        
                         Container(
                           width: 250.0,
                           height: 1.0,
@@ -204,7 +217,8 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Contraseña',
                               hintStyle: const TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                               suffixIcon: GestureDetector(
                                 onTap: _toggleSignup,
                                 child: Icon(
@@ -246,7 +260,8 @@ class _SignUpState extends State<SignUp> {
                               ),
                               hintText: 'Confirmacion',
                               hintStyle: const TextStyle(
-                                  fontFamily: 'WorkSansSemiBold', fontSize: 16.0),
+                                  fontFamily: 'WorkSansSemiBold',
+                                  fontSize: 16.0),
                               suffixIcon: GestureDetector(
                                 onTap: _toggleSignupConfirm,
                                 child: Icon(
@@ -297,7 +312,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
-                  splashColor: CustomTheme.loginGradientEnd1,
+                  // splashColor: CustomTheme.loginGradientEnd1,
                   //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                   child: const Padding(
                     padding:
@@ -320,8 +335,21 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  void _toggleSignUpButton() {
-    CustomSnackBar(context, const Text('SignUp button pressed'));
+  void _toggleSignUpButton() async {
+    final res = await _usuarioProvider.register(
+        email: signupEmailController.text,
+        password: signupPasswordController.text,
+        nombre: signupNameController.text,
+        celular: signupPhoneController.text,
+        fechaNac: signupBirthDate.text);
+    if (res['ok']) {
+      Navigator.pushNamed(context, 'home');
+      CustomSnackBar(context,
+          const Text('Usuario registrado exitosamente, Bienvenido a Botybuy'));
+    } else {
+      CustomSnackBar(context, Text(res['data']['msg']),
+          backgroundColor: Colors.red);
+    }
   }
 
   void _toggleSignup() {
@@ -335,4 +363,28 @@ class _SignUpState extends State<SignUp> {
       _obscureTextConfirmPassword = !_obscureTextConfirmPassword;
     });
   }
+    _selectDate(BuildContext context) async {
+    DateTime newSelectedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime(2040),
+       );
+
+    if (newSelectedDate != null) {
+      _selectedDate = newSelectedDate;
+      signupBirthDate
+        ..text = DateFormat.yMMMd().format(_selectedDate)
+        ..selection = TextSelection.fromPosition(TextPosition(
+            offset: signupBirthDate.text.length,
+            affinity: TextAffinity.upstream));
+    }
+  }
+
+
+
+}
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

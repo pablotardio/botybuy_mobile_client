@@ -49,14 +49,15 @@ class UsuarioProvider {
   }
 
   Future<Map<String, dynamic>> register(
-      String nombre, String celular, String email, String password) async {
+      {String nombre, String celular, String email, String password,String fechaNac }) async {
     try {
       final authdata = {
         'nombre': nombre,
-        'celular': int.parse(celular),
-        'email': email,
-        'password': password,
-        'rolId': 3,
+        'celular': celular,
+        'correo': email,
+        'clave': password,
+        'fechaNac': fechaNac,
+        'rolId': 4,
         'returnSecureToken': true
       };
       final headers = {"Content-Type": "application/json"};
