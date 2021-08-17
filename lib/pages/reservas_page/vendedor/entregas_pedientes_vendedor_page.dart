@@ -17,7 +17,7 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reservas Pendientes'),
+        title: Text('Entregas Pendientes'),
       ),
       body: getSolicitudes(),
     );
@@ -76,6 +76,9 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
           //volviendo atras
           Navigator.pop(context);
           await _ordenProvider.changeEstado(id, 'ENTREGADO');
+          setState(() {
+            
+          });
           CustomSnackBar(
               context, const Text('Se ha confirmado la entrega de la orden'));
         },

@@ -84,6 +84,9 @@ class _ReservasPendienteCajeroPageState
           //volviendo atras
           Navigator.pop(context);
         await _ordenProvider.changeEstado(id,'PAGADO');
+        setState(() {
+            
+          });
        CustomSnackBar(context, const Text('Se ha confirmado el pago de la orden' ));},
     )
   };

@@ -14,6 +14,15 @@ class BodyRecomendaciones extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Image(
+                    height:
+                        MediaQuery.of(context).size.height > 800 ? 191.0 : 150,
+                    fit: BoxFit.fill,
+                    image: const AssetImage('assets/img/recommendations.png')),
+              Text('Te recomendamos los siguientes productos!',style: TextStyle(
+    
+                      fontSize: 16.0,
+                      fontFamily: 'WorkSansSemiBold')),
               ProductosCatalogo(
                   listarProductosFuture: _recomProvider.listarRecomendaciones())
             ],
