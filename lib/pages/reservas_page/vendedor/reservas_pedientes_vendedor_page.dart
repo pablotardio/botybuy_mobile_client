@@ -1,7 +1,7 @@
-
 import 'package:botybuy/pages/reservas_page/vendedor/detalle_reservas_pendientes.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/widgets/button_option.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class ReservasPendienteVendedorPage extends StatefulWidget {
@@ -14,8 +14,6 @@ class ReservasPendienteVendedorPage extends StatefulWidget {
 
 class _ReservasPendienteVendedorPageState
     extends State<ReservasPendienteVendedorPage> {
-  
-
   final _ordenProvider = new OrdenProvider();
   @override
   Widget build(BuildContext context) {
@@ -63,40 +61,60 @@ class _ReservasPendienteVendedorPageState
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
           ordenId: ordenActual['id'],
-          options: getOptions(ordenActual['id'],ordenActual['estado']),
+          options: getOptions(ordenActual['id'], ordenActual['estado']),
         ),
       ),
     );
   }
 
-  Widget getOptions(int id,String estado){
+  Widget getOptions(int id, String estado) {
+    final botones = {
+      "PENDIENTE": Row(
+        children: [
+          ButtonOption(
+            titulo: 'Aceptar',
+            onPressed: () async {
+              await _ordenProvider.changeEstado(id, 'ACEPTADO');
+               updateViewAndNavigateBack();
+              CustomSnackBar(context, const Text('Se ha aceptado la orden'));
+            },
+          )
+        ],
+      ),
+      "ACEPTADO": ButtonOption(
+        titulo: 'Confirmar Preparacion',
+        onPressed: () async {
 
-      final botones = {
-    "PENDIENTE": Row(
-      children: [
-        ButtonOption(
-          titulo: 'Aceptar',
-          onPressed: () async{await _ordenProvider.changeEstado(id,'ACEPTADO');},
-        ),
-        ButtonOption(
-          titulo: 'Cancelar',
-          onPressed: () async{await _ordenProvider.changeEstado(id,'CANCELADO');},
-        ),
-      ],
-    ),
-    "ACEPTADO": ButtonOption(
-      titulo: 'Confirmar Preparacion',
-      onPressed:  () async{await _ordenProvider.changeEstado(id,'PREPARACION');},
-    ),
-    "CANCELADO": Text('Pedido Cancelado'),
-    "PREPARACION": ButtonOption(
-      titulo: 'Confirmar Reserva',
-      onPressed:() async{await _ordenProvider.changeEstado(id,'RESERVADO');},
-    ),
-    "RESERVADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-    "PAGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-    "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-  };
-  return botones[estado];
+          await _ordenProvider.changeEstado(id, 'PREPARACION');
+           updateViewAndNavigateBack();
+          CustomSnackBar(
+              context,
+              const Text(
+                  'Se ha confirmado el comienzo de preparacion de la orden'));
+        },
+      ),
+      "CANCELADO": Text('Pedido Cancelado'),
+      "PREPARACION": ButtonOption(
+        titulo: 'Confirmar Reserva',
+        onPressed: () async {
+          await _ordenProvider.changeEstado(id, 'RESERVADO');
+          updateViewAndNavigateBack();
+          CustomSnackBar(context,
+              const Text('Se ha confirmado la reserva de la orden lista'));
+        },
+      ),
+      "RESERVADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+      "PAGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+      "ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
+    };
+    return botones[estado];
+  }
+
+  void updateViewAndNavigateBack() {
+    setState(() {
+      //Haciendo fetch de nuevo
+    });
+    //volviendo atras
+    Navigator.pop(context);
   }
 }

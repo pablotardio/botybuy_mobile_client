@@ -1,17 +1,21 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 import 'package:botybuy/providers/custom_dialogflow_provider.dart';
+import 'package:botybuy/routes/routes.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
+import 'package:botybuy/utils/launchUrl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
 import 'package:flutter_dialogflow/v2/auth_google.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class BotPage extends StatefulWidget {
   const BotPage({Key key}) : super(key: key);
@@ -21,7 +25,14 @@ class BotPage extends StatefulWidget {
 }
 
 class _BotPageState extends State<BotPage> {
-  final prefs= new PreferenciasUsuario();
+//Speech to text variables
+  stt.SpeechToText _speech;
+  bool _isListening = false;
+  String _sttText = '';
+  double _confidence = 1.0;
+  bool availableSTT = false;
+//end Speech to text variables
+  final prefs = new PreferenciasUsuario();
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   final _chatCambiadoStreamController =
       StreamController<List<ChatMessage>>.broadcast();
@@ -46,41 +57,66 @@ class _BotPageState extends State<BotPage> {
   void initState() {
     super.initState();
     initializeDialogflow();
+    //initialize speech to text
+    initSTT();
   }
- 
+
+  Future<void> initSTT() async {
+    this._speech = stt.SpeechToText();
+    this.availableSTT = await _speech.initialize(
+        onStatus: (val) => print('onStatus: $val'),
+        onError: (val) => print('onError: $val'));
+        
+  }
+
   /// Auth and initialize the dialogflow services
   void initializeDialogflow() async {
     AuthGoogle authGoogle = await AuthGoogle(
             fileJson: "assets/credentials/botybuy-bot-srrn-bd58f9935dfc.json")
         .build();
-    dialogflow = CustomDialogFlowProvider(authGoogle: authGoogle, language: Language.spanish);
+    dialogflow = CustomDialogFlowProvider(
+        authGoogle: authGoogle, language: Language.spanish);
   }
 
+  /**
+   * Send the message to dialogflow and get the response
+   */
   fetchFromDialogFlow(String input) async {
-    final payload="{'userToken':'${prefs.token}'}";
+    final payload = "{'userToken':'${prefs.token}'}";
     print('${prefs.token}');
 
-    AIResponse response = await dialogflow.detectIntent(input,payload);
+    AIResponse response = await dialogflow.detectIntent(input, payload);
     print(response.getMessage());
     final String textResponse = response.getMessage();
+
     //si la respuesta es un solo mensaje
     if (textResponse != null) {
       messages.add(ChatMessage(
           text: textResponse, user: ChatUser(name: 'Bot', uid: '25649654')));
       _chatCambiadoStreamController.sink.add(messages);
-      
     } else {
       //si la respuesta son varios mensajes
       final List<dynamic> listResponse = response.getListMessage();
-       for (var message in listResponse) {
-         Map<String,dynamic> messageSubText= message['text'];
-      messages.add(ChatMessage(
-      text:messageSubText['text'][0], user: ChatUser(name: 'Bot', uid: '25649654')));
-     _chatCambiadoStreamController.sink.add(messages);
-    }
-    }
+      for (var message in listResponse) {
+        //Verifico si es payload o mensaje
 
-   
+        if (message['text'] != null) {
+          //in case the actual object is a message
+          Map<String, dynamic> messageSubText = message['text'];
+          messages.add(ChatMessage(
+              text: messageSubText['text'][0],
+              user: ChatUser(name: 'Bot', uid: '25649654')));
+          _chatCambiadoStreamController.sink.add(messages);
+        } else {
+          //Si llega aqui la respuesta es un payload
+          //to print custom payload from dialogflow
+          //print('payload:'+ json.encode(message['payload']));
+          final String payloadType = message['payload']['type'];
+          final Map<String, dynamic> payloadData = message['payload']['data'];
+          handleCustomPayload(payloadType, payloadData);
+        }
+      }
+    }
   }
 
   void systemMessage() {
@@ -154,14 +190,28 @@ class _BotPageState extends State<BotPage> {
               //var messages =
               //    items.map((i) => ChatMessage.fromJson(i.data()?i.data():[])).toList();
               return DashChat(
+                parsePatterns: <MatchText>[
+                  MatchText(
+                      type: ParsedType.CUSTOM,
+                      pattern:
+                          r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontSize: 14,
+                      ),
+                      onTap: (String value) {
+                        print(value);
+                        launchURL(value);
+                      }),
+                ],
                 key: _chatViewKey,
                 inverted: false,
                 onSend: onSend,
                 sendOnEnter: true,
                 textInputAction: TextInputAction.send,
                 user: user,
-                inputDecoration:
-                    InputDecoration.collapsed(hintText: "Add message here..."),
+                inputDecoration: InputDecoration.collapsed(
+                    hintText: "Escribir mensaje aqui..."),
                 dateFormat: DateFormat('yyyy-MMM-dd'),
                 timeFormat: DateFormat('HH:mm'),
                 messages: messages,
@@ -216,41 +266,42 @@ class _BotPageState extends State<BotPage> {
                 },
                 shouldShowLoadEarlier: false,
                 showTraillingBeforeSend: true,
-                // trailing: <Widget>[
-                //   IconButton(
-                //     icon: Icon(Icons.photo),
-                //     onPressed: () async {
-                //       final picker = ImagePicker();
-                //       PickedFile result = await picker.getImage(
-                //         source: ImageSource.gallery,
-                //         imageQuality: 80,
-                //         maxHeight: 400,
-                //         maxWidth: 400,
-                //       );
+                trailing: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.mic_outlined,color: _isListening? Theme.of(context).primaryColor:Colors.black,),
+                    onPressed: () async {
+                      _listenSTT();
+                      // final picker = ImagePicker();
+                      // PickedFile result = await picker.getImage(
+                      //   source: ImageSource.gallery,
+                      //   imageQuality: 80,
+                      //   maxHeight: 400,
+                      //   maxWidth: 400,
+                      // );
 
-                //       // if (result != null) {
-                //       //   final Reference storageRef =
-                //       //       FirebaseStorage.instance.ref().child("chat_images");
+                      // if (result != null) {
+                      //   final Reference storageRef =
+                      //       FirebaseStorage.instance.ref().child("chat_images");
 
-                //       //   final taskSnapshot = await storageRef.putFile(
-                //       //     File(result.path),
-                //       //     SettableMetadata(
-                //       //       contentType: 'image/jpg',
-                //       //     ),
-                //       //   );
+                      //   final taskSnapshot = await storageRef.putFile(
+                      //     File(result.path),
+                      //     SettableMetadata(
+                      //       contentType: 'image/jpg',
+                      //     ),
+                      //   );
 
-                //       //   String url = await taskSnapshot.ref.getDownloadURL();
+                      //   String url = await taskSnapshot.ref.getDownloadURL();
 
-                //       //   ChatMessage message =
-                //       //       ChatMessage(text: "", user: user, image: url);
+                      //   ChatMessage message =
+                      //       ChatMessage(text: "", user: user, image: url);
 
-                //       //   FirebaseFirestore.instance
-                //       //       .collection('messages')
-                //       //       .add(message.toJson());
-                //       // }
-                //     },
-                //   )
-                // ],
+                      //   FirebaseFirestore.instance
+                      //       .collection('messages')
+                      //       .add(message.toJson());
+                      // }
+                    },
+                  )
+                ],
               );
             }
           }),
@@ -263,5 +314,59 @@ class _BotPageState extends State<BotPage> {
         text: 'Hola, bienvenido a botybuy! ',
         user: ChatUser(name: 'Bot', uid: '25649654')));
     _chatCambiadoStreamController.sink.add(initialList);
+  }
+
+  /**
+   * This functions is invoked when a custom payload provided in dialogflow
+   * made by pablo
+   */
+  void handleCustomPayload(
+      String payloadType, Map<String, dynamic> payloadData) {
+    print(jsonEncode(payloadData));
+    final typesAction = {
+      'NAVIGATE': () {
+        Navigator.pushNamed(context, payloadData['url']);
+      },
+      'NAVIGATE_PARAMS': () {
+        navigateWithParams(
+            context: context,
+            url: payloadData['url'],
+            params: payloadData['params']);
+      }
+    };
+    typesAction[payloadType]();
+  }
+
+  void _listenSTT() async {
+    //This code is to know what language does tts is using
+    //  if (this.availableSTT) {
+    //         List<stt.LocaleName> localeNames = await _speech.locales();
+
+    //      var systemLocale = await _speech.systemLocale();
+    //     String currentLocaleId = systemLocale?.localeId ??'';
+    //     print('currentLocaleId'+currentLocaleId);
+    // }
+    if (!_isListening) {
+      if (this.availableSTT) {
+        setState(() {
+          _isListening = true;
+        });
+        _speech.listen(onResult: (val) {
+          _sttText = val.recognizedWords;
+        },localeId: 'es_ES');
+      } else {
+        print("The user has denied the use of speech recognition.");
+      }
+      // some time later...
+
+    } else {
+      setState(() {
+        _isListening = false;
+      });
+      _speech.stop();
+      if(_sttText!=null){
+      onSend(ChatMessage(
+          text: _sttText, createdAt: DateTime.now(), user: this.user));}
+    }
   }
 }

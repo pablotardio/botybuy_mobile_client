@@ -1,8 +1,8 @@
-import 'package:botybuy/size_config.dart';
+import 'package:botybuy/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:botybuy/pages/login_page/sign_in.dart';
 import 'package:botybuy/pages/login_page/sign_up.dart';
-import 'package:botybuy/theme.dart';
+import 'package:botybuy/utils/theme.dart';
 import 'package:botybuy/utils/bubble_indicator_painter.dart';
 
 class LoginPage extends StatefulWidget {

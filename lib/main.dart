@@ -1,5 +1,5 @@
 import 'package:botybuy/pages/bot/bot_page.dart';
-import 'package:botybuy/pages/routes/routes.dart';
+import 'package:botybuy/routes/routes.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

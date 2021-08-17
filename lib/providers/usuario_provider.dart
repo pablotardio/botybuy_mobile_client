@@ -27,21 +27,21 @@ class UsuarioProvider {
       );
 
       Map<String, dynamic> decodedResp = await json.decode(response.body);
-      // print(decodedResp);
 
-      prefs.token = decodedResp['token'];
-      final vistas = {'vistas': decodedResp['vistas']};
-      prefs.vistas =  json.encode(vistas);
       //prefs.vistas = jsonEncode(decodedResp['vistas']);
-     // print('Saved: '+prefs.vistas+ prefs.token);
+      // print('Saved: '+prefs.vistas+ prefs.token);
+
       if (decodedResp.containsKey('token')) {
+        prefs.token = decodedResp['token'];
+        final vistas = {'vistas': decodedResp['vistas']};
+        prefs.vistas = json.encode(vistas);
         return {
-          'ok': true,
+          'status': "OK",
           'token': decodedResp['token'],
           'vistas': decodedResp['vistas']
         };
       } else {
-        return {'ok': false};
+        return decodedResp;
       }
     } catch (e) {
       print(e);
@@ -49,14 +49,15 @@ class UsuarioProvider {
   }
 
   Future<Map<String, dynamic>> register(
-      String nombre, String celular, String email, String password) async {
+      {String nombre, String celular, String email, String password,String fechaNac }) async {
     try {
       final authdata = {
         'nombre': nombre,
-        'celular': int.parse(celular),
-        'email': email,
-        'password': password,
-        'rolId': 3,
+        'celular': celular,
+        'correo': email,
+        'clave': password,
+        'fechaNac': fechaNac,
+        'rolId': 4,
         'returnSecureToken': true
       };
       final headers = {"Content-Type": "application/json"};

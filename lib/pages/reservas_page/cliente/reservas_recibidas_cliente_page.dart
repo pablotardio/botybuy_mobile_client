@@ -4,20 +4,22 @@ import 'package:botybuy/widgets/button_option.dart';
 import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
-class EntregasVendedorPage extends StatefulWidget {
-  EntregasVendedorPage({Key key}) : super(key: key);
+class ReservasRecibidasClientePage extends StatefulWidget {
+  ReservasRecibidasClientePage({Key key}) : super(key: key);
 
   @override
-  _EntregasVendedorPageState createState() => _EntregasVendedorPageState();
+  _ReservasRecibidasClientePageState createState() =>
+      _ReservasRecibidasClientePageState();
 }
 
-class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
+class _ReservasRecibidasClientePageState
+    extends State<ReservasRecibidasClientePage> {
   final _ordenProvider = new OrdenProvider();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Entregas Pendientes'),
+        title: Text('Reservas Compradas/Recibidas'),
       ),
       body: getSolicitudes(),
     );
@@ -32,7 +34,7 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
           children: _listarSolicitudes(context, snapshot.data),
         );
       },
-      future: _ordenProvider.getEntregasPendientes(),
+      future: _ordenProvider.getMisComprasCliente(),
     );
   }
 
@@ -58,6 +60,7 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
       context,
       MaterialPageRoute(
         builder: (context) => DetalleReservasPendientes(
+          // hasOptions: false,
           ordenId: ordenActual['id'],
           options: getOptions(ordenActual['id'], ordenActual['estado']),
         ),
@@ -66,26 +69,8 @@ class _EntregasVendedorPageState extends State<EntregasVendedorPage> {
   }
 
   Widget getOptions(int id, String estado) {
-    final botones = {
-      "PAGADO": ButtonOption(
-        titulo: 'Confirmar Entrega',
-        onPressed: () async {
-          setState(() {
-            //Haciendo fetch de nuevo
-          });
-          //volviendo atras
-          Navigator.pop(context);
-          await _ordenProvider.changeEstado(id, 'ENTREGADO');
-          setState(() {
-            
-          });
-          CustomSnackBar(
-              context, const Text('Se ha confirmado la entrega de la orden'));
-        },
-      ),
-      
-      //"ENTREGADO": MaterialButton(onPressed: () {}, color: Colors.purple[800]),
-    };
+    final botones = {}; //El cliente no tiene botones, solo ve
     return botones[estado];
   }
+
 }

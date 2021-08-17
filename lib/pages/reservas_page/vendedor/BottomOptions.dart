@@ -1,4 +1,4 @@
-import 'package:botybuy/size_config.dart';
+import 'package:botybuy/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class BottomOptions extends StatelessWidget {

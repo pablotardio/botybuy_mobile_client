@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Event Photo'),
+        title: Text('Botybuy'),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: _menuLista(),

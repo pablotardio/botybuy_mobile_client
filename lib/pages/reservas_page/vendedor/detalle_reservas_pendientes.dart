@@ -2,7 +2,7 @@ import 'package:botybuy/models/CarritoModel.dart';
 import 'package:botybuy/pages/carrito_page/carrito_card.dart';
 import 'package:botybuy/pages/reservas_page/vendedor/BottomOptions.dart';
 import 'package:botybuy/providers/orden_provider.dart';
-import 'package:botybuy/size_config.dart';
+import 'package:botybuy/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class DetalleReservasPendientes extends StatelessWidget {

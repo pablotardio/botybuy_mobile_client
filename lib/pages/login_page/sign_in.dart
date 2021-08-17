@@ -2,7 +2,7 @@ import 'package:botybuy/providers/usuario_provider.dart';
 import 'package:botybuy/shared_prefs/preferencias_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:botybuy/theme.dart';
+import 'package:botybuy/utils/theme.dart';
 import 'package:botybuy/widgets/snackbar.dart';
 
 class SignIn extends StatefulWidget {
@@ -18,7 +18,7 @@ class _SignInState extends State<SignIn> {
   UsuarioProvider _usuarioProvider = new UsuarioProvider();
   final FocusNode focusNodeEmail = FocusNode();
   final FocusNode focusNodePassword = FocusNode();
-  final prefs= new PreferenciasUsuario();
+  final prefs = new PreferenciasUsuario();
   bool _obscureTextPassword = true;
 
   @override
@@ -30,7 +30,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -151,7 +150,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 child: MaterialButton(
                   highlightColor: Colors.transparent,
-                  splashColor: CustomTheme.loginGradientEnd1,
+                  // splashColor: CustomTheme.loginGradientEnd1,
                   child: const Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 42.0),
@@ -168,19 +167,19 @@ class _SignInState extends State<SignIn> {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'olvidaste tu contraseña?',
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.white,
-                      fontSize: 16.0,
-                      fontFamily: 'WorkSansMedium'),
-                )),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 10.0),
+          //   child: TextButton(
+          //       onPressed: () {},
+          //       child: const Text(
+          //         'olvidaste tu contraseña?',
+          //         style: TextStyle(
+          //             decoration: TextDecoration.underline,
+          //             color: Colors.white,
+          //             fontSize: 16.0,
+          //             fontFamily: 'WorkSansMedium'),
+          //       )),
+          // ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Row(
@@ -204,7 +203,7 @@ class _SignInState extends State<SignIn> {
                 const Padding(
                   padding: EdgeInsets.only(left: 15.0, right: 15.0),
                   child: Text(
-                    'O registrarse con',
+                    'Botybuy',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16.0,
@@ -234,13 +233,16 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  handleSubmit() {
-    final responseUsuario = _usuarioProvider.login(
+  handleSubmit() async {
+    final responseUsuario = await _usuarioProvider.login(
         loginEmailController.text, loginPasswordController.text);
-    if (prefs.token != '') {
-      Navigator.pushNamed(context,'home');
+    print(responseUsuario);
+    if (responseUsuario['status']=='OK') {
+      Navigator.pushNamed(context, 'home');
+      return CustomSnackBar(context, const Text('Bienvenido a Botybuy'));
+    } else {
+      return CustomSnackBar(context,  Text(responseUsuario['data']['msg']),backgroundColor:Colors.red);
     }
-    return CustomSnackBar(context, const Text('Login button pressed'));
   }
 
   void _toggleSignInButton() {

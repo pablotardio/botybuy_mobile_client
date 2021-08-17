@@ -2,6 +2,7 @@
 import 'package:botybuy/pages/reservas_page/vendedor/detalle_reservas_pendientes.dart';
 import 'package:botybuy/providers/orden_provider.dart';
 import 'package:botybuy/widgets/button_option.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class ReservasPendienteCajeroPage extends StatefulWidget {
@@ -76,7 +77,17 @@ class _ReservasPendienteCajeroPageState
    
     "RESERVADO": ButtonOption(
       titulo: 'Confirmar Pago',
-      onPressed:() async{await _ordenProvider.changeEstado(id,'RESERVADO');},
+      onPressed:() async{
+        setState(() {
+            //Haciendo fetch de nuevo
+          });
+          //volviendo atras
+          Navigator.pop(context);
+        await _ordenProvider.changeEstado(id,'PAGADO');
+        setState(() {
+            
+          });
+       CustomSnackBar(context, const Text('Se ha confirmado el pago de la orden' ));},
     )
   };
   return botones[estado];
