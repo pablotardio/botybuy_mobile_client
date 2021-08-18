@@ -82,4 +82,20 @@ class UsuarioProvider {
       print(e);
     }
   }
+    Future<List<dynamic>> listarUsuarios() async {
+    try {
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/usuario/listar'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 }
