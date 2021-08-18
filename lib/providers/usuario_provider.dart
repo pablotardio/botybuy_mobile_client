@@ -70,10 +70,46 @@ class UsuarioProvider {
       Map<String, dynamic> decodedResp = json.decode(response.body);
       // print(decodedResp);
       if (decodedResp.containsKey('token')) {
+         prefs.token = decodedResp['token'];
+        final vistas = {'vistas': decodedResp['vistas']};
+        prefs.vistas = json.encode(vistas);
         return {
           'ok': true,
           'token': decodedResp['token'],
           'vistas': decodedResp['vistas']
+        };
+      } else {
+        return {'ok': false};
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+    Future<Map<String, dynamic>> create(
+      {String nombre, String celular, String email, String password,String fechaNac,int rolId }) async {
+    try {
+      final body = {
+        'nombre': nombre,
+        'celular': celular,
+        'correo': email,
+        'clave': password,
+        'fechaNac': fechaNac,
+        'rolId': rolId,
+        'returnSecureToken': true
+      };
+      final headers = {"Content-Type": "application/json"};
+
+      final response = await http.post(
+        new Uri.http(_host, '/api/usuario/crear'),
+        headers: headers,
+        body: json.encode(body),
+      );
+      Map<String, dynamic> decodedResp = json.decode(response.body);
+      // print(decodedResp);
+      if (decodedResp.containsKey('msg')) {
+        return {
+          'ok': true,
         };
       } else {
         return {'ok': false};
@@ -88,6 +124,22 @@ class UsuarioProvider {
 
       final response = await http.get(
         new Uri.http(_host, '/api/usuario/listar'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+    Future<List<dynamic>> listarRoles() async {
+    try {
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/rol/listar'),
         headers: headers,
       );
 
