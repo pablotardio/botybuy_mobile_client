@@ -10,6 +10,7 @@ import 'package:botybuy/pages/reservas_page/cliente/reservas_pedientes_cliente_p
 import 'package:botybuy/pages/reservas_page/cliente/reservas_recibidas_cliente_page.dart';
 import 'package:botybuy/pages/reservas_page/vendedor/entregas_pedientes_vendedor_page.dart';
 import 'package:botybuy/pages/reservas_page/vendedor/reservas_pedientes_vendedor_page.dart';
+import 'package:botybuy/pages/usuarios/usuario_form.dart';
 import 'package:botybuy/pages/usuarios/usuarios_page.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,16 @@ navigateWithParams({context, String url, Map<String, dynamic> params}) {
         MaterialPageRoute(
           builder: (context) => DetalleProductoPage(
             productId: params['productId'],
+          ),
+        ),
+      );
+    },
+    '/usuario/crear': () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UsuarioForm(
+            
           ),
         ),
       );

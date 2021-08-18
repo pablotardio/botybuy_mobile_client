@@ -1,4 +1,5 @@
 import 'package:botybuy/providers/usuario_provider.dart';
+import 'package:botybuy/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class UsuariosPage extends StatefulWidget {
@@ -25,6 +26,11 @@ class _UsuariosPageState extends State<UsuariosPage> {
             children: _listarUsuarios(context, snapshot.data),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){ navigateWithParams(context:context,url: '/usuario/crear');},
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
