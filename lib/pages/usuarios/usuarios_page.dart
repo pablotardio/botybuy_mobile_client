@@ -1,6 +1,7 @@
 import 'package:botybuy/models/UsuarioModel.dart';
 import 'package:botybuy/providers/usuario_provider.dart';
 import 'package:botybuy/routes/routes.dart';
+import 'package:botybuy/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class UsuariosPage extends StatefulWidget {
@@ -51,20 +52,20 @@ class _UsuariosPageState extends State<UsuariosPage> {
           ListTile(
         title: Text(currentUser['correo']),
         subtitle: Text(currentUser['rol']['nombre']),
-        onTap: ()async {
-        
-        },
+        onTap: () async {},
         trailing: Row(children: [
           IconButton(
-              onPressed: ()async {
-         await updateUsuario(currentUser, context);
-        },
+              onPressed: () async {
+                await updateUsuario(currentUser, context);
+              },
               icon: Icon(
                 Icons.edit,
                 color: Colors.blue[500],
               )),
           IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                await showAlertDeleteConfirmation(currentUser, context);
+              },
               icon: Icon(
                 Icons.delete,
                 color: Colors.red[500],
@@ -77,13 +78,42 @@ class _UsuariosPageState extends State<UsuariosPage> {
     // SizedBox(width: getProportionateScreenWidth(20)),
   }
 
+  Future<void> showAlertDeleteConfirmation(
+      currentUser, BuildContext context) async {
+    final alert = AlertDialog(
+      title: Text('Seguro que quiere borrar el usuario ${currentUser['id']}'),
+      actions: [
+        TextButton(
+          child: Text("Si"),
+          onPressed: () async {
+            await _usuarioProvider.delete(currentUser['id']);
+            setState(() {});
+            CustomSnackBar(context, Text('Usuario Eliminado correctamente'));
+          },
+        ),
+        TextButton(
+          child: Text("No"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   Future<void> updateUsuario(currentUser, BuildContext context) async {
-    Map<String,dynamic> userJson= await _usuarioProvider.read(currentUser['id']);
-    UsuarioModel parsedUsuario= new UsuarioModel.fromJson(userJson);
+    Map<String, dynamic> userJson =
+        await _usuarioProvider.read(currentUser['id']);
+    UsuarioModel parsedUsuario = new UsuarioModel.fromJson(userJson);
     navigateWithParams(
-         context: context,
-         url: '/usuario/form',
-         params: {'usuario': parsedUsuario});
+        context: context,
+        url: '/usuario/form',
+        params: {'usuario': parsedUsuario});
   }
 
   // void navigateToDetail(BuildContext context, ProductoModel producto) {
