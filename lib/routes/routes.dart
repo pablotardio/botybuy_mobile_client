@@ -2,6 +2,7 @@ import 'package:botybuy/pages/bot/bot_page.dart';
 import 'package:botybuy/pages/carrito_page/carrito_page.dart';
 import 'package:botybuy/pages/catalogo/catalogo_page.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/detalle_producto_page.dart';
+import 'package:botybuy/pages/crud_producto_page/producto_listar.dart';
 import 'package:botybuy/pages/home_page/home_page.dart';
 import 'package:botybuy/pages/login_page/login_page.dart';
 import 'package:botybuy/pages/recomendaciones/obtener_recomendaciones_page.dart';
@@ -48,5 +49,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         ReservasPendienteVendedorPage(),
     '/ventas/entregas': (BuildContext context) => EntregasVendedorPage(),
     '/cajero/reservas': (BuildContext context) => ReservasPendienteCajeroPage(),
+    //'/admin/productos': (BuildContext context) => ProductsPage(),
   };
 }

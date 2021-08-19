@@ -13,7 +13,6 @@ class CategoriaProvider {
 
   Future<List<dynamic>> listarCategorias() async {
     try {
-      
       final headers = getHeaders();
 
       final response = await http.get(
@@ -21,12 +20,11 @@ class CategoriaProvider {
         headers: headers,
       );
 
-      Map<String,dynamic> decodedResp = await json.decode(response.body);
-       print(decodedResp);
+      Map<String, dynamic> decodedResp = await json.decode(response.body);
+      print(decodedResp);
       return decodedResp['data'];
     } catch (e) {
       print(e);
     }
   }
-  
 }

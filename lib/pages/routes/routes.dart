@@ -20,7 +20,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'producto': (BuildContext context) => ProductoPage(),
     'agregarProducto': (BuildContext context) => AddProductPage(),
     'verproducto': (BuildContext context) => ShowProductPage(),
-    'listarProductos': (BuildContext context) => ProductsPage(),
+    // 'listarProductos': (BuildContext context) => ProductsPage(),
     '/cliente/carrito': (BuildContext context) => CarritoPage(),
     '/ventas/reservas/pendientes': (BuildContext context) =>
         ReservasPendienteVendedorPage(),

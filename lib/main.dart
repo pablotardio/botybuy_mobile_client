@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Botybuy',
-        initialRoute: 'listarProductos',
+        initialRoute: 'login',
         home: BotPage(),
         theme: ThemeData(primaryColor: Colors.purple[800]),
         routes: getApplicationRoutes());

@@ -1,6 +1,6 @@
 import 'package:botybuy/pages/crud_producto_page/product.dart';
 import 'package:botybuy/pages/crud_producto_page/producto_crear.dart';
-import 'package:botybuy/pages/crud_producto_page/repositorio_producto.dart';
+import 'package:botybuy/providers/producto_provider.dart';
 import 'package:flutter/material.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class ProductsPage extends StatefulWidget {
 //---------------------------------------------------------------------------
 class _ProductsPageState extends State<ProductsPage> {
   ScrollController _scrollController;
-  var repository = new ProductRepository();
+  final _productoProvider = new ProductoProvider();
   List<Product> _products = [];
   List<Product> _products_2 = [];
 
@@ -154,7 +154,7 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   loadProducts() async {
-    repository.loadProducts().then((result) {
+    _productoProvider.listarProductos().then((result) {
       if (result != null) {
         setState(() {
           result.forEach((item) {

@@ -1,11 +1,10 @@
-import 'package:botybuy/pages/catalogo/categorias_catalogo.dart';
-import 'package:botybuy/pages/catalogo/productos_catalogo.dart';
 import 'package:botybuy/providers/producto_provider.dart';
-import 'package:botybuy/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-class BodyCatalogo extends StatelessWidget {
-  const BodyCatalogo({Key key}) : super(key: key);
+import 'admin_productos_catalogo.dart';
+
+class AdminBodyCatalogo extends StatelessWidget {
+  const AdminBodyCatalogo({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +14,8 @@ class BodyCatalogo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // CategoriasCatalogo(),
-              ProductosCatalogo(
+              //CategoriasCatalogo(),
+              AdminProductosCatalogo(
                   listarProductosFuture: _productoProvider.listarProductos())
             ],
           ),
