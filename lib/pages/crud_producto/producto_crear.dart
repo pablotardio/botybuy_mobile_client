@@ -11,17 +11,21 @@ class AddProductPage extends StatefulWidget {
 
 //---------------------------------------------------------------------------
 class _AddProductPageState extends State<AddProductPage> {
-  List<String> _poderes = [
-    'material escolar',
-    'jugueteria',
-    'peluches',
-    'piscinas',
-    'ejercicio',
+  List<Map<String,dynamic>> _categorias = [
+    {'id':1,'nombre':'material escolar'},
+    {'id':2,'nombre':'jugueteria'},
+    {'id':3,'nombre':'peluches'},
+    {'id':4,'nombre':'piscinas'},
+    {'id':5,'nombre':'ejercicio'},
   ];
   //lista de poderes que usare en el drop
-  String _opcionSeleccionada = 'material escolar'; //valor incial
-  File foto;
+  int _categoriaSeleccionada = 1; //valor incial
+  File fotoFile;
   bool _estaSubiendo = false;
+  String nombre = '';
+  String precio = '';
+  String cantidad = '';
+  String descripcion = '';
   final imagePicker = new ImagePicker();
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,12 @@ class _AddProductPageState extends State<AddProductPage> {
       appBar: AppBar(
         backgroundColor: Colors.purple[600],
         title: Text('botybuy'),
+      ),floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _handleSubmitButton();
+        },
+        child: Icon(Icons.done),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -60,12 +70,13 @@ class _AddProductPageState extends State<AddProductPage> {
           // counter: Text('letras ${_nombre.length}'),
           hintText: 'nombre del producto',
           labelText: 'Nombre',
+          
           helperText: 'ingresar el nombre del producto',
           //suffixIcon: Icon(Icons.access_alarm),
           icon: Icon(Icons.redeem)),
       onChanged: (valor) {
         setState(() {
-          // _nombre = valor;
+        this.nombre = valor.toString();
         });
       },
     );
@@ -83,7 +94,7 @@ class _AddProductPageState extends State<AddProductPage> {
           icon: Icon(Icons.description_outlined)),
       onChanged: (valor) {
         setState(() {
-          // _email = valor;
+          this.descripcion = valor.toString();
         });
       },
     );
@@ -101,7 +112,7 @@ class _AddProductPageState extends State<AddProductPage> {
           icon: Icon(Icons.attach_money)),
       onChanged: (valor) {
         setState(() {
-          // _email = valor;
+          this.precio = valor.toString();
         });
       },
     );
@@ -118,7 +129,7 @@ class _AddProductPageState extends State<AddProductPage> {
           icon: Icon(Icons.data_saver_on)),
       onChanged: (valor) {
         setState(() {
-          // _email = valor;
+          this.cantidad = valor;
         });
       },
     );
@@ -183,16 +194,16 @@ class _AddProductPageState extends State<AddProductPage> {
   _procesarImagen(ImageSource origen) async {
     // reemplazo al _subirFoto y _tomarFtos
 //Se guarda la imagen en un picked File
-    foto = await ImagePicker.pickImage(source: origen);
-    if (foto != null) {
+    fotoFile = await ImagePicker.pickImage(source: origen);
+    if (fotoFile != null) {
       //limpieza
     }
     setState(() {});
   }
 
   _mostrarFoto() {
-    if (foto?.path != null) {
-      return Image.file(File(foto?.path));
+    if (fotoFile?.path != null) {
+      return Image.file(File(fotoFile?.path));
     } else {
       return Image(
         image: AssetImage('assets/img/no-image.png'),
@@ -207,13 +218,13 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
 //----------------------------------------------------------------------------------------------------------------
-  List<DropdownMenuItem<String>> getOpciones() {
+  List<DropdownMenuItem<int>> getOpciones() {
     // una lista de drop que internamente manejara un string
-    List<DropdownMenuItem<String>> lista = new List();
-    _poderes.forEach((poder) {
+    List<DropdownMenuItem<int>> lista = new List();
+    _categorias.forEach((categoria) {
       lista.add(DropdownMenuItem(
-        child: Text(poder),
-        value: poder,
+        child: Text(categoria['nombre']),
+        value: categoria['id'],
       )); //agregar a a  la lista, el value debe ser lo que creo, en este caso strings
     });
     return lista; //regresando una lista de drops
@@ -225,12 +236,12 @@ class _AddProductPageState extends State<AddProductPage> {
     return Row(
       children: [
         DropdownButton(
-          value: _opcionSeleccionada, //valor de la opcion actual seleccionada
+          value: _categoriaSeleccionada, //valor de la opcion actual seleccionada
           items: getOpciones(),
           onChanged: (opt) {
             setState(() {
               //redibujo
-              _opcionSeleccionada =
+              _categoriaSeleccionada =
                   opt; //la lista seleccionada es igual a la opcion seleccionada
             });
           }, //el onchanged dependera del items
@@ -252,6 +263,15 @@ class _AddProductPageState extends State<AddProductPage> {
       child: Icon(Icons.camera_alt),
       onPressed: _tomarFoto,
     ));
+  }
+
+  void _handleSubmitButton() {
+    print(this._categoriaSeleccionada);
+    print(this.fotoFile.path);
+    print(this.nombre);
+    print(this.precio);
+    print(this.descripcion);
+    print(this.cantidad);
   }
   //----------------------------------------------------------------
 
