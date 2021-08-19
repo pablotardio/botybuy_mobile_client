@@ -49,7 +49,11 @@ class UsuarioProvider {
   }
 
   Future<Map<String, dynamic>> register(
-      {String nombre, String celular, String email, String password,String fechaNac }) async {
+      {String nombre,
+      String celular,
+      String email,
+      String password,
+      String fechaNac}) async {
     try {
       final authdata = {
         'nombre': nombre,
@@ -70,7 +74,7 @@ class UsuarioProvider {
       Map<String, dynamic> decodedResp = json.decode(response.body);
       // print(decodedResp);
       if (decodedResp.containsKey('token')) {
-         prefs.token = decodedResp['token'];
+        prefs.token = decodedResp['token'];
         final vistas = {'vistas': decodedResp['vistas']};
         prefs.vistas = json.encode(vistas);
         return {
@@ -86,8 +90,13 @@ class UsuarioProvider {
     }
   }
 
-    Future<Map<String, dynamic>> create(
-      {String nombre, String celular, String email, String password,String fechaNac,int rolId }) async {
+  Future<Map<String, dynamic>> create(
+      {String nombre,
+      String celular,
+      String email,
+      String password,
+      String fechaNac,
+      int rolId}) async {
     try {
       final body = {
         'nombre': nombre,
@@ -118,7 +127,47 @@ class UsuarioProvider {
       print(e);
     }
   }
-    Future<List<dynamic>> listarUsuarios() async {
+
+  Future<Map<String, dynamic>> update(
+      {int userToEditId,
+      String nombre,
+      String celular,
+      String email,
+      String password,
+      String fechaNac,
+      int rolId}) async {
+    try {
+      final body = {
+        'nombre': nombre,
+        'celular': celular,
+        'correo': email,
+        'clave': password,
+        'fechaNac': fechaNac,
+        'rolId': rolId,
+        'returnSecureToken': true
+      };
+      final headers = {"Content-Type": "application/json"};
+
+      final response = await http.put(
+        new Uri.http(_host, '/api/usuario/editar/$userToEditId'),
+        headers: headers,
+        body: json.encode(body),
+      );
+      Map<String, dynamic> decodedResp = json.decode(response.body);
+      // print(decodedResp);
+      if (decodedResp.containsKey('msg')) {
+        return {
+          'ok': true,
+        };
+      } else {
+        return {'ok': false};
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<dynamic>> listarUsuarios() async {
     try {
       final headers = getHeaders();
 
@@ -127,14 +176,15 @@ class UsuarioProvider {
         headers: headers,
       );
 
-      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      Map<String, dynamic> decodedResp = await json.decode(response.body);
       print(decodedResp);
       return decodedResp['data'];
     } catch (e) {
       print(e);
     }
   }
-    Future<List<dynamic>> listarRoles() async {
+
+  Future<List<dynamic>> listarRoles() async {
     try {
       final headers = getHeaders();
 
@@ -143,7 +193,7 @@ class UsuarioProvider {
         headers: headers,
       );
 
-      Map<String,dynamic> decodedResp = await json.decode(response.body);
+      Map<String, dynamic> decodedResp = await json.decode(response.body);
       print(decodedResp);
       return decodedResp['data'];
     } catch (e) {
