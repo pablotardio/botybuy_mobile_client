@@ -27,7 +27,7 @@ class ProductoProvider {
       print(e);
     }
   }
-
+  ///Este provider es solo para el cliente por que crea recomendaciones, si un admin lo usa daria error
   Future<Map<String, dynamic>> getDetalleCliente(int id) async {
         try {
       
