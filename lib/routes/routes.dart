@@ -2,6 +2,7 @@ import 'package:botybuy/pages/bot/bot_page.dart';
 import 'package:botybuy/pages/carrito_page/carrito_page.dart';
 import 'package:botybuy/pages/catalogo/catalogo_page.dart';
 import 'package:botybuy/pages/catalogo/detalleProducto/detalle_producto_page.dart';
+import 'package:botybuy/pages/crud_producto/productos_page.dart';
 import 'package:botybuy/pages/home_page/home_page.dart';
 import 'package:botybuy/pages/login_page/login_page.dart';
 import 'package:botybuy/pages/recomendaciones/obtener_recomendaciones_page.dart';
@@ -48,6 +49,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'login': (BuildContext context) => LoginPage(),
     'home': (BuildContext context) => HomePage(),
     '/admin/usuarios': (BuildContext context) => UsuariosPage(),
+    '/admin/productos': (BuildContext context) => ProductsPage(),
     '/cliente/bot': (BuildContext context) => BotPage(),
     '/cliente/carrito': (BuildContext context) => CarritoPage(),
     '/cliente/reservas': (BuildContext context) =>
