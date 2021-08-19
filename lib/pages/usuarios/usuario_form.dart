@@ -34,20 +34,20 @@ class _UsuarioFormState extends State<UsuarioForm> {
       TextEditingController();
   final _usuarioProvider = UsuarioProvider();
   int selectedRoldropdownValue = 1;
+
+
+    @override
+  void initState() {
+    super.initState();
+    initUserParam();
+  }
   @override
   Widget build(BuildContext context) {
-    if (widget.usuario == null) {
-      widget.usuario = UsuarioModel(
-          celular: '',
-          correo: '',
-          clave: '',
-          fechaNac: '',
-          nombre: '',
-          rolId: 0);
-    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crear nuevo usuario'),
+        title: esUpdate
+            ? Text('Editar usuario ${widget.usuario.id}')
+            : Text('Crear nuevo usuario'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -286,8 +286,15 @@ class _UsuarioFormState extends State<UsuarioForm> {
                   return DropdownButton(
                     value: selectedRoldropdownValue,
                     onChanged: (newValue) {
+                      print('new value $newValue');
+
                       setState(() {
-                        selectedRoldropdownValue = newValue;
+                        if (esUpdate) {
+                          widget.usuario.rolId=newValue;
+                          selectedRoldropdownValue = newValue;
+                        } else {
+                          selectedRoldropdownValue = newValue;
+                        }
                       });
                     },
                     items: _listarRoles(context, snapshot.data),
@@ -299,6 +306,30 @@ class _UsuarioFormState extends State<UsuarioForm> {
         ),
       ),
     );
+  }
+
+  void initUserParam() {
+    if (widget.usuario == null) {
+      print('null');
+      widget.usuario = UsuarioModel(
+          id: -1,
+          celular: '',
+          correo: '',
+          clave: '',
+          fechaNac: DateTime.now().toString(),
+          nombre: '',
+          rolId: 1);
+    } else {
+      signupEmailController.text = widget.usuario.correo;
+      signupPhoneController.text = widget.usuario.celular;
+      signupBirthDate.text = widget.usuario.fechaNac;
+      signupNameController.text = widget.usuario.nombre;
+      signupPasswordController.text = widget.usuario.clave;
+      signupConfirmPasswordController.text = widget.usuario.clave;
+      selectedRoldropdownValue = widget.usuario.rolId;
+      if (widget.usuario.fechaNac != null)
+        this._selectedDate = DateTime.parse(widget.usuario.fechaNac);
+    }
   }
 
   List<DropdownMenuItem<dynamic>> _listarRoles(
@@ -315,20 +346,39 @@ class _UsuarioFormState extends State<UsuarioForm> {
   }
 
   void _handleSubmitButton() async {
-    final res = await _usuarioProvider.create(
-        email: signupEmailController.text,
-        password: signupPasswordController.text,
-        nombre: signupNameController.text,
-        celular: signupPhoneController.text,
-        rolId: selectedRoldropdownValue,
-        fechaNac: signupBirthDate.text);
-    if (res['ok']) {
-      CustomSnackBar(context, const Text('Usuario creado exitosamente'));
+    if (esUpdate) {
+      final res = await _usuarioProvider.update(
+          userToEditId: widget.usuario.id,
+          email: signupEmailController.text,
+          password: signupPasswordController.text,
+          nombre: signupNameController.text,
+          celular: signupPhoneController.text,
+          rolId: selectedRoldropdownValue,
+          fechaNac: signupBirthDate.text);
+      if (res['ok']) {
+        CustomSnackBar(context, const Text('Usuario actualizado exitosamente'));
+      } else {
+        CustomSnackBar(context, Text(res['data']['msg']),
+            backgroundColor: Colors.red);
+      }
     } else {
-      CustomSnackBar(context, Text(res['data']['msg']),
-          backgroundColor: Colors.red);
+      final res = await _usuarioProvider.create(
+          email: signupEmailController.text,
+          password: signupPasswordController.text,
+          nombre: signupNameController.text,
+          celular: signupPhoneController.text,
+          rolId: selectedRoldropdownValue,
+          fechaNac: signupBirthDate.text);
+      if (res['ok']) {
+        CustomSnackBar(context, const Text('Usuario creado exitosamente'));
+      } else {
+        CustomSnackBar(context, Text(res['data']['msg']),
+            backgroundColor: Colors.red);
+      }
     }
   }
+
+  bool get esUpdate => widget.usuario.id != -1;
 
   void _toggleSignup() {
     setState(() {

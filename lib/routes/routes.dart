@@ -29,12 +29,12 @@ navigateWithParams({context, String url, Map<String, dynamic> params}) {
         ),
       );
     },
-    '/usuario/crear': () {
+    '/usuario/form': () {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => UsuarioForm(
-            
+            usuario: params['usuario'],
           ),
         ),
       );

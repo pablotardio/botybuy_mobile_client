@@ -1,3 +1,4 @@
+import 'package:botybuy/models/UsuarioModel.dart';
 import 'package:botybuy/providers/usuario_provider.dart';
 import 'package:botybuy/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,12 @@ class _UsuariosPageState extends State<UsuariosPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){ navigateWithParams(context:context,url: '/usuario/crear');},
+        onPressed: () {
+          navigateWithParams(
+              context: context,
+              url: '/usuario/form',
+              params: {'usuario': null});
+        },
         child: Icon(Icons.add),
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -40,12 +46,19 @@ class _UsuariosPageState extends State<UsuariosPage> {
     List<Widget> currentRowList = [];
 
     data.forEach((currentUser) {
-      listaDeProductos.add(ListTile(
+      listaDeProductos.add(
+          //Componente para listar un usario
+          ListTile(
         title: Text(currentUser['correo']),
         subtitle: Text(currentUser['rol']['nombre']),
+        onTap: ()async {
+        
+        },
         trailing: Row(children: [
           IconButton(
-              onPressed: () {},
+              onPressed: ()async {
+         await updateUsuario(currentUser, context);
+        },
               icon: Icon(
                 Icons.edit,
                 color: Colors.blue[500],
@@ -62,6 +75,15 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
     return listaDeProductos;
     // SizedBox(width: getProportionateScreenWidth(20)),
+  }
+
+  Future<void> updateUsuario(currentUser, BuildContext context) async {
+    Map<String,dynamic> userJson= await _usuarioProvider.read(currentUser['id']);
+    UsuarioModel parsedUsuario= new UsuarioModel.fromJson(userJson);
+    navigateWithParams(
+         context: context,
+         url: '/usuario/form',
+         params: {'usuario': parsedUsuario});
   }
 
   // void navigateToDetail(BuildContext context, ProductoModel producto) {

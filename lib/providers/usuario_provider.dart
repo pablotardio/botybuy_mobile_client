@@ -128,6 +128,23 @@ class UsuarioProvider {
     }
   }
 
+  Future<Map<String, dynamic>> read(int id) async {
+        try {
+      
+      final headers = getHeaders();
+
+      final response = await http.get(
+        new Uri.http(_host, '/api/usuario/ver/$id'),
+        headers: headers,
+      );
+
+      Map<String,dynamic> decodedResp = await json.decode(response.body);
+       print(decodedResp);
+      return decodedResp['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
   Future<Map<String, dynamic>> update(
       {int userToEditId,
       String nombre,
@@ -194,7 +211,7 @@ class UsuarioProvider {
       );
 
       Map<String, dynamic> decodedResp = await json.decode(response.body);
-      print(decodedResp);
+     
       return decodedResp['data'];
     } catch (e) {
       print(e);
