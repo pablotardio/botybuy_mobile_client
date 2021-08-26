@@ -39,7 +39,7 @@ class _BotPageState extends State<BotPage> {
   final ChatUser user = ChatUser(
     name: "Fayeed",
     uid: "123456789",
-    avatar: "https://www.wrappixel.com/ampleadmin/assets/images/users/4.jpg",
+    avatar: "https://img.freepik.com/vector-gratis/avatar-personaje-empresario-aislado_24877-60111.jpg?size=338&ext=jpg",
   );
 
   final ChatUser otherUser = ChatUser(
